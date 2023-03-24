@@ -1,15 +1,13 @@
 {
-  "name": "template",
-  "version": "1.0.0",
-  "description": "project template, TS, redux, SCSS, Jest, ESLint, prettier, webpack",
-  "main": "index.js",
+  "name": "video_filter",
+  "version": "0.1.0",
+  "description": "Chrome extension, TS, SCSS, Jest, ESLint, prettier, webpack",
   "scripts": {
-    "start": "webpack serve --open --config ./webpack.config.js --env mode=dev",
     "build": "webpack --config ./webpack.config.js --env mode=prod",
     "lint": "eslint . --ext .ts",
     "test": "jest"
   },
-  "author": "",
+  "author": "khoncharov",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.17.0",
@@ -19,7 +17,6 @@
     "@typescript-eslint/eslint-plugin": "^5.10.2",
     "@typescript-eslint/parser": "^5.10.2",
     "babel-jest": "^29.3.1",
-    "chrome-types": "^0.1.178",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.6.0",
@@ -41,5 +38,8 @@
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.7.4",
     "webpack-merge": "^5.8.0"
+  },
+  "dependencies": {
+    "@types/chrome": "^0.0.224"
   }
 }

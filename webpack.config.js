@@ -43,7 +43,10 @@ const baseConfig = {
       chunks: ['popup'],
     }),
     new CopyPlugin({
-      patterns: [{ from: './src/manifest.json', to: './manifest.json' }],
+      patterns: [
+        { from: './src/manifest.json', to: './manifest.json' },
+        { from: './src/assets', to: './assets' },
+      ],
     }),
     new CleanWebpackPlugin(),
   ],

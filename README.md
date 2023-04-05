@@ -1,15 +1,15 @@
 ## Filter functions
 
-### Basic
+1. Show video container on the page
+2. Change video brightness, contrast, saturation
+   - filter: brightness() - default 100% / min 0 / max 400
+   - filter: contrast() - default 100% / min 0 / max 300
+   - filter: saturate() - default 100% / min 0 / max 300
+3. Flip video container
+   - transform: scaleX(-1) - on / off
+4. Save filter state with Alias
+5. Restore filter state
 
-- filter: brightness() - default 100% / min 0 / max 400
-- filter: contrast() - default 100% / min 0 / max 300
-- filter: saturate() - default 100% / min 0 / max 300
+## Design
 
-### Additional (not implemented)
-
-- filter: hue-rotate() - default 0deg / min 0 / max 360
-- filter: invert() - default 0% / min 0 / max 100
-- filter: grayscale() - default 0% / min 0 / max 100
-- filter: sepia() - default 0% / min 0 / max 100
-- filter: blur() - default 0px / min 0 / max 50
+Figma [layout and diagrams](https://www.figma.com/file/hmcOOhND0LHUrJdOEFo8cz/Twitch-video-filter?t=FC0zW5v5bj7pRjJ2-6)

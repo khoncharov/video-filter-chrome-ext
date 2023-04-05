@@ -1,4 +1,5 @@
 /* eslint-disable implicit-arrow-linebreak */
+
 const detectBtn = document.querySelector('#detect-btn') as HTMLButtonElement;
 
 function showContainer() {
@@ -29,22 +30,7 @@ async function detectHandler() {
   }
 }
 
-console.log('etst123');
-
-let state = '';
-
-detectBtn.addEventListener('click', () => {
-  detectHandler();
-
-  if (state === 'white') {
-    state = 'black';
-  } else {
-    state = 'white';
-  }
-  document.body.style.backgroundColor = state;
-});
-
-// ***
+detectBtn.addEventListener('click', detectHandler);
 
 const defaultBtn = document.querySelector('#default-btn') as HTMLButtonElement;
 const brightBtn = document.querySelector('#bright-btn') as HTMLButtonElement;

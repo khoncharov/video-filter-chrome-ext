@@ -6,7 +6,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const baseConfig = {
   entry: {
-    content: path.resolve(__dirname, './src/content/index.ts'),
+    // content: path.resolve(__dirname, './src/content/index.ts'),
     popup: path.resolve(__dirname, './src/popup/index.ts'),
   },
   module: {

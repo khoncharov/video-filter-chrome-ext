@@ -1,7 +1,5 @@
-/* eslint-disable implicit-arrow-linebreak */
+import './style.scss';
 import { fromEvent, throttleTime } from 'rxjs';
-
-const detectBtn = document.querySelector('#detect-btn') as HTMLButtonElement;
 
 function showContainer() {
   const videoContainer = document.querySelector<HTMLVideoElement>('video');
@@ -17,7 +15,7 @@ function showContainer() {
   }
 }
 
-async function detectHandler() {
+async function showBtnHandler() {
   const queryOptions = { active: true, lastFocusedWindow: true };
   const [tab] = await chrome.tabs.query(queryOptions);
 
@@ -30,11 +28,6 @@ async function detectHandler() {
     });
   }
 }
-
-fromEvent(detectBtn, 'click').pipe(throttleTime(1000)).subscribe(detectHandler);
-
-const defaultBtn = document.querySelector('#default-btn') as HTMLButtonElement;
-const applyBtn = document.querySelector('#bright-btn') as HTMLButtonElement;
 
 function changeFilter(brightness: number, contrast: number, saturate: number): void {
   const filterStr = `brightness(${brightness}%) contrast(${contrast}%) saturate(${saturate}%)`;
@@ -64,14 +57,24 @@ async function brightnessHandler(
   }
 }
 
-fromEvent(applyBtn, 'click')
-  .pipe(throttleTime(50))
-  .subscribe(() => {
-    brightnessHandler(240, 108, 85);
-  });
+function bootstrap() {
+  const showBtn = document.querySelector('#show-rect-btn') as HTMLButtonElement;
+  const defaultBtn = document.querySelector('#default-btn') as HTMLButtonElement;
+  const applyBtn = document.querySelector('#apply-btn') as HTMLButtonElement;
 
-fromEvent(defaultBtn, 'click')
-  .pipe(throttleTime(50))
-  .subscribe(() => {
-    brightnessHandler(100, 100, 100);
-  });
+  fromEvent(showBtn, 'click').pipe(throttleTime(600)).subscribe(showBtnHandler);
+
+  fromEvent(defaultBtn, 'click')
+    .pipe(throttleTime(50))
+    .subscribe(() => {
+      brightnessHandler(100, 100, 100);
+    });
+
+  fromEvent(applyBtn, 'click')
+    .pipe(throttleTime(50))
+    .subscribe(() => {
+      brightnessHandler(240, 108, 85);
+    });
+}
+
+bootstrap();

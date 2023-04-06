@@ -1,0 +1,27 @@
+@use "./variables" as *;
+
+input[type="range"] {
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+  width: 100%;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  background-color: $mid-gray;
+  opacity: 1;
+  height: 0.5rem;
+  transition: background-color $t-x1;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  margin-top: -1rem;
+  background-color: $dark-rose-red;
+  height: 1.8rem;
+  width: 0.9rem;
+}
+
+input[type="range"]:hover::-webkit-slider-runnable-track {
+  background-color: $twitch-purple;
+}

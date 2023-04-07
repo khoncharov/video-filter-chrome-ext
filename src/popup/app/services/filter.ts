@@ -87,12 +87,10 @@ export default class FilterStateService extends EventTarget {
   }
 
   restoreState(state: FilterState): void {
-    this._brightness = state.brightness;
-    this._contrast = state.contrast;
-    this._saturation = state.saturation;
-    this._isFlipped = state.isFlipped;
-
-    this.notify();
+    this.brightness = state.brightness;
+    this.contrast = state.contrast;
+    this.saturation = state.saturation;
+    this.isFlipped = state.isFlipped;
   }
 
   reset(): void {

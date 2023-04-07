@@ -46,6 +46,10 @@
   }
 }
 
+.input-radio:checked ~ .radio > .radio-mark {
+  opacity: 1;
+}
+
 .save {
   &__list {
     margin-top: 1.6rem;
@@ -63,6 +67,11 @@
     display: grid;
     grid-template-columns: 1fr 2.1rem;
     align-items: center;
+    transition: background-color $t-x1;
+  }
+
+  &__item:hover {
+    background-color: #faf6ff;
   }
 
   &__label {
@@ -87,8 +96,4 @@
   &__label:hover .radio {
     border-color: $carafe;
   }
-}
-
-.input-radio:checked ~ .radio > .radio-mark {
-  opacity: 1;
 }

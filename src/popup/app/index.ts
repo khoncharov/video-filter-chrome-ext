@@ -3,6 +3,7 @@ import FilterDialogComponent from './components/filter/filter-dialog';
 import FilterService from './services/filter';
 import { changeFilterHandler, showRectHandler } from './utils';
 import { DEFAULT_VALUE } from './constants';
+import SaveDialogComponent from './components/saves/saves-dialog';
 
 export default class RootComponent {
   private showRectBtn = document.querySelector('#show-rect-btn') as HTMLButtonElement;
@@ -17,14 +18,12 @@ export default class RootComponent {
 
   private filterDialog: FilterDialogComponent;
 
-  // public loadedSave!: SaveName;
-  // private data: DataService;
+  private saveDialog: SaveDialogComponent;
 
   constructor() {
     this.filterDialog = new FilterDialogComponent(this.filter);
-    // this.data = new DataService();
-    // this.data.restoreAppState();
-    // this.filter.brightness.subscribe();
+
+    this.saveDialog = new SaveDialogComponent(this.filter);
   }
 
   init(): void {

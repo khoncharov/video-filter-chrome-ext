@@ -44,10 +44,8 @@ export default class RootComponent {
         changeFilterHandler(this.filter);
       });
 
-    fromEvent(this.filter, 'filterChanged')
-      .pipe(throttleTime(50))
-      .subscribe(() => {
-        this.filterDialog.update();
-      });
+    fromEvent(this.filter, 'filterChanged').subscribe(() => {
+      this.filterDialog.update();
+    });
   }
 }

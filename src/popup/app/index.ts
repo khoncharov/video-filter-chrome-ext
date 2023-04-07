@@ -34,6 +34,7 @@ export default class RootComponent {
       .pipe(throttleTime(50))
       .subscribe(() => {
         this.isTracking = false;
+        this.changeApplyBtnAppearance(this.isTracking);
         changeFilterHandler(DEFAULT_VALUE);
       });
 
@@ -41,11 +42,26 @@ export default class RootComponent {
       .pipe(throttleTime(50))
       .subscribe(() => {
         this.isTracking = true;
+        this.changeApplyBtnAppearance(this.isTracking);
         changeFilterHandler(this.filter);
       });
 
     fromEvent(this.filter, 'filterChanged').subscribe(() => {
       this.filterDialog.update();
+
+      if (this.isTracking) {
+        changeFilterHandler(this.filter);
+      }
     });
+  }
+
+  changeApplyBtnAppearance(isTracking: boolean): void {
+    if (isTracking) {
+      this.applyBtn.innerText = 'track';
+      this.applyBtn.classList.add('btn-tracking-mode');
+    } else {
+      this.applyBtn.innerText = 'apply';
+      this.applyBtn.classList.remove('btn-tracking-mode');
+    }
   }
 }

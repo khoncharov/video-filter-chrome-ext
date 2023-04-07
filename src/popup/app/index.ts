@@ -1,5 +1,5 @@
 import { fromEvent, throttleTime } from 'rxjs';
-import FilterDialogComponent from './components/dialog-filter';
+import FilterDialogComponent from './components/filter/filter-dialog';
 import FilterService from './services/filter';
 import { changeFilterHandler, showRectHandler } from './utils';
 import { DEFAULT_VALUE } from './constants';

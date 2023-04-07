@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import FilterStateService from '../services/filter';
+import FilterStateService from '../../services/filter';
 
 export default class FlipVideoComponent {
   private element = document.querySelector('#input-flip') as HTMLInputElement;

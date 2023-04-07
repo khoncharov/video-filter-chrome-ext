@@ -1,5 +1,5 @@
-import FilterStateService from '../services/filter';
-import { DEFAULT_VALUE } from '../constants';
+import { DEFAULT_VALUE } from '../../constants';
+import FilterStateService from '../../services/filter';
 
 export default class ContrastRangeComponent {
   private filter: FilterStateService;

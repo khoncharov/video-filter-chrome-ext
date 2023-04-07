@@ -1,4 +1,4 @@
-import FilterStateService from '../services/filter';
+import FilterStateService from '../../services/filter';
 
 export default class ResetBtnComponent {
   private element = document.querySelector('#btn-reset') as HTMLButtonElement;

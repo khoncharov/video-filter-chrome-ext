@@ -13,7 +13,7 @@ export default class FilterStateService extends EventTarget {
 
   constructor() {
     super();
-    this.restoreState();
+    this.init();
   }
 
   get brightness() {
@@ -60,7 +60,7 @@ export default class FilterStateService extends EventTarget {
     this.dispatchEvent(new CustomEvent('filterChanged'));
   }
 
-  async restoreState(): Promise<void> {
+  async init(): Promise<void> {
     await chrome.storage.local.get(['brightness']).then((data) => {
       this._brightness = data.brightness ?? DEFAULT_VALUE.brightness;
     });
@@ -86,12 +86,16 @@ export default class FilterStateService extends EventTarget {
     };
   }
 
-  reset(): void {
-    this._brightness = DEFAULT_VALUE.brightness;
-    this._contrast = DEFAULT_VALUE.contrast;
-    this._saturation = DEFAULT_VALUE.saturation;
-    this._isFlipped = DEFAULT_VALUE.isFlipped;
+  restoreState(state: FilterState): void {
+    this._brightness = state.brightness;
+    this._contrast = state.contrast;
+    this._saturation = state.saturation;
+    this._isFlipped = state.isFlipped;
 
     this.notify();
+  }
+
+  reset(): void {
+    this.restoreState(DEFAULT_VALUE);
   }
 }

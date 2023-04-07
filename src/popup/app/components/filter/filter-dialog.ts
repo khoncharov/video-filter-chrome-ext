@@ -1,5 +1,5 @@
-import FilterStateService from '../services/filter';
-import ResetBtnComponent from './btn-reset';
+import FilterStateService from '../../services/filter';
+import ResetBtnComponent from './reset-btn';
 import FlipVideoComponent from './flip';
 import BrightnessRangeComponent from './range-brightness';
 import ContrastRangeComponent from './range-contrast';

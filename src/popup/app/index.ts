@@ -1,4 +1,3 @@
-import { fromEvent, throttleTime } from 'rxjs';
 import FilterDialogComponent from './components/filter/filter-dialog';
 import FilterService from './services/filter';
 import { changeFilterHandler, showRectHandler } from './utils';
@@ -30,25 +29,21 @@ export default class RootComponent {
   }
 
   init(): void {
-    fromEvent(this.showRectBtn, 'click').pipe(throttleTime(600)).subscribe(showRectHandler);
+    this.showRectBtn.addEventListener('click', showRectHandler);
 
-    fromEvent(this.defaultBtn, 'click')
-      .pipe(throttleTime(50))
-      .subscribe(() => {
-        this.isTracking = false;
-        this.changeApplyBtnAppearance(this.isTracking);
-        changeFilterHandler(DEFAULT_VALUE);
-      });
+    this.defaultBtn.addEventListener('click', () => {
+      this.isTracking = false;
+      this.changeApplyBtnAppearance(this.isTracking);
+      changeFilterHandler(DEFAULT_VALUE);
+    });
 
-    fromEvent(this.applyBtn, 'click')
-      .pipe(throttleTime(50))
-      .subscribe(() => {
-        this.isTracking = true;
-        this.changeApplyBtnAppearance(this.isTracking);
-        changeFilterHandler(this.filter);
-      });
+    this.applyBtn.addEventListener('click', () => {
+      this.isTracking = true;
+      this.changeApplyBtnAppearance(this.isTracking);
+      changeFilterHandler(this.filter);
+    });
 
-    fromEvent(this.filter, 'filterChanged').subscribe(() => {
+    this.filter.addEventListener('filterChanged', () => {
       this.filterDialog.update();
 
       if (this.isTracking) {

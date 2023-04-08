@@ -15,7 +15,7 @@ export default function createSaveItem(
       <div class="radio">
         <div class="radio-mark"></div>
       </div>
-      <span class="save__caption" id="save-caption">${name}</span>
+      <span class="save__caption" id="save-caption"></span>
     </label>
     <button class="btn-delete" type="button" aria-label="Delete value">
       <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
@@ -25,6 +25,8 @@ export default function createSaveItem(
         />
       </svg>
     </button>`;
+
+  (item.querySelector('#save-caption') as HTMLSpanElement).textContent = name;
 
   item.querySelector('input')?.addEventListener('click', () => {
     const state = data.get(name);

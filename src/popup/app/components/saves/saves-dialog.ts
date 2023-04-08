@@ -25,10 +25,16 @@ export default class SaveDialogComponent {
       this.updateBtn();
     });
 
+    this.input.addEventListener('keyup', (e) => {
+      if (e.key === 'Enter') {
+        this.btn.click();
+      }
+    });
+
     this.data = new Map<SaveName, FilterState>();
 
     this.btn.addEventListener('click', () => {
-      const saveName = this.input.value;
+      const saveName = this.input.value.trim();
       this.data.set(saveName, this.filter.getState());
       this.input.value = '';
 

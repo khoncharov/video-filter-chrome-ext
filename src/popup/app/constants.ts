@@ -1,4 +1,4 @@
-export const MAX_SAVE_NAME_LENGTH = 21;
+export const MAX_SAVE_NAME_LENGTH = 19;
 
 export const DEFAULT_VALUE = {
   brightness: 100,

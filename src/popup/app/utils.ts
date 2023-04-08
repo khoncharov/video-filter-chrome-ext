@@ -6,7 +6,7 @@ function showVideoRect() {
   const container = document.querySelector<HTMLVideoElement>('video');
 
   if (container) {
-    container.style.border = '5px dashed magenta';
+    container.style.border = '1rem dashed magenta';
 
     setTimeout(() => {
       if (container) {

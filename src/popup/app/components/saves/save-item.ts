@@ -1,17 +1,13 @@
-import FilterStateService from '../../services/filter';
-import { FilterState, SaveName } from '../../types';
+/* eslint-disable no-param-reassign */
+import SaveDataService from '../../services/data';
 
-export default function createSaveItem(
-  name: string,
-  filter: FilterStateService,
-  data: Map<SaveName, FilterState>,
-): HTMLElement {
+export default function createSaveItem(name: string, data: SaveDataService): HTMLElement {
   const item = document.createElement('li');
   item.className = 'save__item';
 
   item.innerHTML = `      
     <label class="save__label">
-      <input class="input-radio" type="radio" name="loaded-item" checked/>
+      <input class="input-radio" type="radio" name="loaded-item"/>
       <div class="radio">
         <div class="radio-mark"></div>
       </div>
@@ -28,16 +24,14 @@ export default function createSaveItem(
 
   (item.querySelector('#save-caption') as HTMLSpanElement).textContent = name;
 
+  (item.querySelector('input') as HTMLInputElement).checked = data.currentSaveName === name;
+
   item.querySelector('input')?.addEventListener('click', () => {
-    const state = data.get(name);
-    if (state) {
-      filter.restoreState(state);
-    }
+    data.currentSaveName = name;
   });
 
   item.querySelector('button')?.addEventListener('click', () => {
-    data.delete(name);
-    item.remove();
+    data.deleteItem(name);
   });
 
   return item;

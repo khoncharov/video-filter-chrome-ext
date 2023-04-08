@@ -61,18 +61,14 @@ export default class FilterStateService extends EventTarget {
   }
 
   async init(): Promise<void> {
-    await chrome.storage.local.get(['brightness']).then((data) => {
-      this._brightness = data.brightness ?? DEFAULT_VALUE.brightness;
-    });
-    await chrome.storage.local.get(['contrast']).then((data) => {
-      this._contrast = data.contrast ?? DEFAULT_VALUE.contrast;
-    });
-    await chrome.storage.local.get(['saturation']).then((data) => {
-      this._saturation = data.saturation ?? DEFAULT_VALUE.saturation;
-    });
-    await chrome.storage.local.get(['isFlipped']).then((data) => {
-      this._isFlipped = data.isFlipped ?? DEFAULT_VALUE.isFlipped;
-    });
+    await chrome.storage.local
+      .get(['brightness', 'contrast', 'saturation', 'isFlipped'])
+      .then((data) => {
+        this._brightness = data.brightness ?? DEFAULT_VALUE.brightness;
+        this._contrast = data.contrast ?? DEFAULT_VALUE.contrast;
+        this._saturation = data.saturation ?? DEFAULT_VALUE.saturation;
+        this._isFlipped = data.isFlipped ?? DEFAULT_VALUE.isFlipped;
+      });
 
     this.notify();
   }

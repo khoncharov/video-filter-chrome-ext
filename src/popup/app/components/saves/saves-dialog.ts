@@ -4,6 +4,8 @@ import FilterStateService from '../../services/filter';
 import createSaveItem from './save-item';
 
 export default class SaveDialogComponent {
+  private data: SaveDataService;
+
   private filter: FilterStateService;
 
   private input = document.querySelector('#input-save-name') as HTMLInputElement;
@@ -12,10 +14,9 @@ export default class SaveDialogComponent {
 
   private list = document.querySelector('#list-saves') as HTMLUListElement;
 
-  private data: SaveDataService;
-
-  constructor(filter: FilterStateService) {
+  constructor(filter: FilterStateService, data: SaveDataService) {
     this.filter = filter;
+    this.data = data;
 
     this.input.addEventListener('input', () => {
       const value = this.input.value.slice(0, MAX_SAVE_NAME_LENGTH);
@@ -28,8 +29,6 @@ export default class SaveDialogComponent {
         this.addBtn.click();
       }
     });
-
-    this.data = new SaveDataService();
 
     this.addBtn.addEventListener('click', () => {
       const saveName = this.input.value.trim();
@@ -46,7 +45,7 @@ export default class SaveDialogComponent {
       }
 
       this.list.innerHTML = '';
-      this.data.forEachValue((value, name) => {
+      this.data.forEach((value, name) => {
         this.list.appendChild(createSaveItem(name, this.data));
       });
     });

@@ -4,6 +4,7 @@ import FilterService from './services/filter';
 import { changeFilterHandler, showRectHandler } from './utils';
 import { DEFAULT_VALUE } from './constants';
 import SaveDialogComponent from './components/saves/saves-dialog';
+import SaveDataService from './services/data';
 
 export default class RootComponent {
   private showRectBtn = document.querySelector('#show-rect-btn') as HTMLButtonElement;
@@ -14,7 +15,9 @@ export default class RootComponent {
 
   public isTracking: boolean = false;
 
-  private filter: FilterService = new FilterService();
+  private filter = new FilterService();
+
+  private data = new SaveDataService();
 
   private filterDialog: FilterDialogComponent;
 
@@ -23,7 +26,7 @@ export default class RootComponent {
   constructor() {
     this.filterDialog = new FilterDialogComponent(this.filter);
 
-    this.saveDialog = new SaveDialogComponent(this.filter);
+    this.saveDialog = new SaveDialogComponent(this.filter, this.data);
   }
 
   init(): void {

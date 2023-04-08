@@ -44,10 +44,14 @@ export default class SaveDialogComponent {
         this.filter.restoreState(state);
       }
 
-      this.list.innerHTML = '';
-      this.data.forEach((value, name) => {
-        this.list.appendChild(createSaveItem(name, this.data));
-      });
+      this.updateList();
+    });
+  }
+
+  updateList(): void {
+    this.list.innerHTML = '';
+    this.data.forEach((value, name) => {
+      this.list.appendChild(createSaveItem(name, this.data));
     });
   }
 

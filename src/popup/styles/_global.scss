@@ -58,6 +58,14 @@ fieldset {
     font-size: 1.5rem;
     font-weight: $fw-bold;
     color: $dark-rose-red;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  &-title span {
+    color: $carafe;
+    font-weight: $fw-regular;
+    text-transform: none;
   }
 }
 

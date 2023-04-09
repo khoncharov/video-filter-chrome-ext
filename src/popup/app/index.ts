@@ -3,6 +3,7 @@ import SaveStateComponent from './components/save-state';
 import SaveDataService from './services/data';
 import { changeFilterHandler, showRectHandler } from './utils';
 import { DEFAULT_VALUE } from './constants';
+import { DataEvent } from './types';
 
 export default class RootComponent {
   private showRectBtn = document.querySelector('#show-rect-btn') as HTMLButtonElement;
@@ -10,6 +11,8 @@ export default class RootComponent {
   private defaultBtn = document.querySelector('#default-btn') as HTMLButtonElement;
 
   private applyBtn = document.querySelector('#apply-btn') as HTMLButtonElement;
+
+  private saveNameCaption = document.querySelector('#save-name-caption') as HTMLSpanElement;
 
   public isTracking: boolean = false;
 
@@ -40,27 +43,36 @@ export default class RootComponent {
       changeFilterHandler(this.data.getCurrentFilterState());
     });
 
-    this.data.addEventListener('dataChanged', () => {
+    this.data.addEventListener(DataEvent.UserChangeFilter, () => {
       // INPUT on some filter control
       this.saveComp.list.clearSelected();
+      this.updateSaveNameCaption();
       this.applyContextScript();
     });
 
-    this.data.addEventListener('dataLoaded', () => {
+    this.data.addEventListener(DataEvent.Loaded, () => {
       // LIST ITEM click or load from LS ??
       this.filterComp.updateView();
+      this.updateSaveNameCaption();
       this.saveComp.list.update();
       this.applyContextScript();
     });
 
-    this.data.addEventListener('dataSaved', () => {
+    this.data.addEventListener(DataEvent.Saved, () => {
       // NEW SAVE ADDED - saveItem click
+      this.updateSaveNameCaption();
       this.saveComp.list.update();
       this.applyContextScript();
+    });
+
+    this.data.addEventListener(DataEvent.Deleted, () => {
+      // saveItem click DEL
+      this.updateSaveNameCaption();
+      this.saveComp.list.update();
     });
   }
 
-  applyContextScript() {
+  applyContextScript(): void {
     if (this.isTracking) {
       changeFilterHandler(this.data.getCurrentFilterState());
     }
@@ -74,5 +86,10 @@ export default class RootComponent {
       this.applyBtn.innerText = 'apply';
       this.applyBtn.classList.remove('btn-tracking-mode');
     }
+  }
+
+  updateSaveNameCaption(): void {
+    const currentName = this.data.currentSaveName ? ` - ${this.data.currentSaveName}` : '';
+    this.saveNameCaption.textContent = currentName;
   }
 }

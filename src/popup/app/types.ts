@@ -10,3 +10,10 @@ export interface FilterState {
   saturation: number;
   isFlipped: boolean;
 }
+
+export enum DataEvent {
+  UserChangeFilter = 'userChangeFilter',
+  Loaded = 'dataLoaded',
+  Saved = 'dataSaved',
+  Deleted = 'dataDeleted',
+}

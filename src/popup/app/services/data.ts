@@ -1,12 +1,10 @@
 import { DEFAULT_VALUE } from '../constants';
-import { FilterState, SaveName } from '../types';
-
-type TDataEvent = 'dataChanged' | 'dataLoaded' | 'dataSaved';
+import { DataEvent, FilterState, SaveName } from '../types';
 
 export default class SaveDataService extends EventTarget {
   private storage = new Map<SaveName, FilterState>();
 
-  private current: SaveName = '';
+  private currentName: SaveName = '';
 
   private currentState: FilterState = { ...DEFAULT_VALUE };
 
@@ -15,9 +13,13 @@ export default class SaveDataService extends EventTarget {
     this.restoreFromLS();
   }
 
+  notify(event: DataEvent) {
+    this.dispatchEvent(new CustomEvent(event));
+  }
+
   set brightness(value: number) {
     this.currentState.brightness = value;
-    this.notify('dataChanged');
+    this.notify(DataEvent.UserChangeFilter);
   }
 
   get brightness() {
@@ -26,7 +28,7 @@ export default class SaveDataService extends EventTarget {
 
   set contrast(value: number) {
     this.currentState.contrast = value;
-    this.notify('dataChanged');
+    this.notify(DataEvent.UserChangeFilter);
   }
 
   get contrast() {
@@ -35,7 +37,7 @@ export default class SaveDataService extends EventTarget {
 
   set saturation(value: number) {
     this.currentState.saturation = value;
-    this.notify('dataChanged');
+    this.notify(DataEvent.UserChangeFilter);
   }
 
   get saturation() {
@@ -44,7 +46,7 @@ export default class SaveDataService extends EventTarget {
 
   set isFlipped(value: boolean) {
     this.currentState.isFlipped = value;
-    this.notify('dataChanged');
+    this.notify(DataEvent.UserChangeFilter);
   }
 
   get isFlipped() {
@@ -62,19 +64,15 @@ export default class SaveDataService extends EventTarget {
     return this.currentState;
   }
 
-  notify(event: TDataEvent) {
-    this.dispatchEvent(new CustomEvent(event));
-  }
-
   set currentSaveName(value: SaveName) {
-    this.current = value;
+    this.currentName = value;
     chrome.storage.local.set({
       currentName: value,
     });
   }
 
   get currentSaveName() {
-    return this.current;
+    return this.currentName;
   }
 
   forEach(
@@ -96,40 +94,40 @@ export default class SaveDataService extends EventTarget {
       savesList: JSON.stringify(Array.from(this.storage)),
       currentName: this.currentSaveName,
     });
-    this.notify('dataSaved');
+    this.notify(DataEvent.Saved);
   }
 
-  getState(item: SaveName): FilterState | null {
-    return this.storage.get(item) ?? null;
+  getState(name: SaveName): FilterState | null {
+    return this.storage.get(name) ?? null;
   }
 
-  deleteItem(item: SaveName) {
-    this.storage.delete(item);
-    if (item === this.current) {
+  deleteItem(name: SaveName) {
+    this.storage.delete(name);
+    if (name === this.currentName) {
       this.currentSaveName = '';
     }
     chrome.storage.local.set({
       savesList: JSON.stringify(Array.from(this.storage)),
     });
-    this.notify('dataChanged');
+    this.notify(DataEvent.Deleted);
   }
 
   restoreState(name: SaveName) {
     const state = this.getState(name);
     if (state) {
       this.loadFilterState(state);
-      this.current = name;
+      this.currentName = name;
     }
 
-    this.notify('dataLoaded');
+    this.notify(DataEvent.Loaded);
   }
 
   restoreFromLS() {
     chrome.storage.local.get(['savesList', 'currentName']).then((data) => {
       this.storage = new Map<SaveName, FilterState>(JSON.parse(data.savesList ?? '[]'));
-      this.current = data.currentName ?? '';
+      this.currentName = data.currentName ?? '';
 
-      this.notify('dataLoaded');
+      this.notify(DataEvent.Loaded);
     });
   }
 }

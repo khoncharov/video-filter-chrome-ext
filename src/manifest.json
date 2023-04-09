@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Video filter",
   "description": "Let you to adjust video brightness, contrast, saturation and horizontal flip",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "action": {
     "default_popup": "./popup/index.html",
     "default_icon": "./assets/icon_16.png"

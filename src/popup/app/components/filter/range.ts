@@ -39,10 +39,7 @@ export default class RangeComponent {
   }
 
   reset() {
-    console.log(DEFAULT_VALUE[`${this.rangeName}`]);
-    console.log(this.data[`${this.rangeName}`]);
     this.data[`${this.rangeName}`] = DEFAULT_VALUE[`${this.rangeName}`];
-    console.log(this.data[`${this.rangeName}`]);
     this.update();
   }
 }

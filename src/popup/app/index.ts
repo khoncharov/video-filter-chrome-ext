@@ -45,6 +45,7 @@ export default class RootComponent {
 
     this.data.addEventListener(DataEvent.UserChangeFilter, () => {
       // INPUT on some filter control
+      this.data.currentSaveName = '';
       this.saveComp.list.clearSelected();
       this.updateSaveNameCaption();
       this.applyContextScript();

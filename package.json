@@ -4,6 +4,7 @@
   "description": "Chrome extension, TS, SCSS, Jest, ESLint, prettier, webpack",
   "scripts": {
     "build": "webpack --config ./webpack.config.js --env mode=prod",
+    "dev": "webpack --config ./webpack.config.js --env mode=dev",
     "lint": "eslint . --ext .ts",
     "test": "jest"
   },

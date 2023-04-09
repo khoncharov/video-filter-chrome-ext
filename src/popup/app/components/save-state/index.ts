@@ -1,12 +1,9 @@
 import { MAX_SAVE_NAME_LENGTH } from '../../constants';
 import SaveDataService from '../../services/data';
-import FilterStateService from '../../services/filter';
 import createSaveItem from './save-item';
 
-export default class SaveDialogComponent {
+export default class SaveStateComponent {
   private data: SaveDataService;
-
-  private filter: FilterStateService;
 
   private input = document.querySelector('#input-save-name') as HTMLInputElement;
 
@@ -14,8 +11,9 @@ export default class SaveDialogComponent {
 
   private list = document.querySelector('#list-saves') as HTMLUListElement;
 
-  constructor(filter: FilterStateService, data: SaveDataService) {
-    this.filter = filter;
+  // extract 2 components: list and form
+
+  constructor(data: SaveDataService) {
     this.data = data;
 
     this.input.addEventListener('input', () => {
@@ -32,19 +30,10 @@ export default class SaveDialogComponent {
 
     this.addBtn.addEventListener('click', () => {
       const saveName = this.input.value.trim();
-      this.data.saveItem(saveName, this.filter.getState());
+      this.data.saveItem(saveName);
       this.input.value = '';
 
       this.updateBtn();
-    });
-
-    this.data.addEventListener('dataChanged', () => {
-      const state = this.data.getState(this.data.currentSaveName);
-      if (state) {
-        this.filter.restoreState(state);
-      }
-
-      this.updateList();
     });
   }
 
@@ -52,6 +41,15 @@ export default class SaveDialogComponent {
     this.list.innerHTML = '';
     this.data.forEach((value, name) => {
       this.list.appendChild(createSaveItem(name, this.data));
+    });
+  }
+
+  clearSelectedItem(): void {
+    this.list.querySelectorAll('input').forEach((input) => {
+      if (input.checked) {
+        // eslint-disable-next-line no-param-reassign
+        input.checked = false;
+      }
     });
   }
 

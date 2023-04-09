@@ -27,17 +27,15 @@ export default function createSaveItem(name: string, data: SaveDataService): HTM
   (item.querySelector('input') as HTMLInputElement).checked = data.currentSaveName === name;
 
   const selectItemHandler = () => {
-    data.currentSaveName = name;
+    data.restoreState(name);
   };
+  item.querySelector('input')?.addEventListener('click', selectItemHandler);
 
   const deleteBtnHandler = () => {
     data.deleteItem(name);
     item.removeEventListener('click', selectItemHandler);
     item.removeEventListener('click', deleteBtnHandler);
   };
-
-  item.querySelector('input')?.addEventListener('click', selectItemHandler);
-
   item.querySelector('button')?.addEventListener('click', deleteBtnHandler);
 
   return item;

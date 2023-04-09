@@ -1,9 +1,8 @@
-import FilterDialogComponent from './components/filter/filter-dialog';
-import FilterService from './services/filter';
+import FilterComponent from './components/filter';
+import SaveStateComponent from './components/save-state';
+import SaveDataService from './services/data';
 import { changeFilterHandler, showRectHandler } from './utils';
 import { DEFAULT_VALUE } from './constants';
-import SaveDialogComponent from './components/saves/saves-dialog';
-import SaveDataService from './services/data';
 
 export default class RootComponent {
   private showRectBtn = document.querySelector('#show-rect-btn') as HTMLButtonElement;
@@ -14,18 +13,16 @@ export default class RootComponent {
 
   public isTracking: boolean = false;
 
-  private filter = new FilterService();
-
   private data = new SaveDataService();
 
-  private filterDialog: FilterDialogComponent;
+  private filterComp: FilterComponent;
 
-  private saveDialog: SaveDialogComponent;
+  private saveComp: SaveStateComponent;
 
   constructor() {
-    this.filterDialog = new FilterDialogComponent(this.filter);
+    this.filterComp = new FilterComponent(this.data);
 
-    this.saveDialog = new SaveDialogComponent(this.filter, this.data);
+    this.saveComp = new SaveStateComponent(this.data);
   }
 
   init(): void {
@@ -33,26 +30,47 @@ export default class RootComponent {
 
     this.defaultBtn.addEventListener('click', () => {
       this.isTracking = false;
-      this.changeApplyBtnAppearance(this.isTracking);
+      this.changeApplyBtn(this.isTracking);
       changeFilterHandler(DEFAULT_VALUE);
     });
 
     this.applyBtn.addEventListener('click', () => {
       this.isTracking = true;
-      this.changeApplyBtnAppearance(this.isTracking);
-      changeFilterHandler(this.filter);
+      this.changeApplyBtn(this.isTracking);
+      changeFilterHandler(this.data.getCurrentFilterState());
     });
 
-    this.filter.addEventListener('filterChanged', () => {
-      this.filterDialog.update();
+    this.data.addEventListener('dataChanged', () => {
+      // INPUT on some filter control
+      this.saveComp.clearSelectedItem();
 
-      if (this.isTracking) {
-        changeFilterHandler(this.filter);
-      }
+      this.applyContextScript();
+    });
+
+    this.data.addEventListener('dataLoaded', () => {
+      // LIST ITEM click or load from LS ??
+      this.filterComp.updateView();
+      this.saveComp.updateList();
+
+      this.applyContextScript();
+    });
+
+    this.data.addEventListener('dataSaved', () => {
+      // NEW SAVE ADDED - saveItem click
+      // this.filter.updateView();
+      this.saveComp.updateList();
+
+      this.applyContextScript();
     });
   }
 
-  changeApplyBtnAppearance(isTracking: boolean): void {
+  applyContextScript() {
+    if (this.isTracking) {
+      changeFilterHandler(this.data.getCurrentFilterState());
+    }
+  }
+
+  changeApplyBtn(isTracking: boolean): void {
     if (isTracking) {
       this.applyBtn.innerText = 'track';
       this.applyBtn.classList.add('btn-tracking-mode');

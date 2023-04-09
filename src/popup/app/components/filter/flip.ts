@@ -1,21 +1,29 @@
-/* eslint-disable no-param-reassign */
-import FilterStateService from '../../services/filter';
+import { DEFAULT_VALUE } from '../../constants';
+import SaveDataService from '../../services/data';
 
 export default class FlipVideoComponent {
-  private element = document.querySelector('#input-flip') as HTMLInputElement;
+  private data: SaveDataService;
 
-  private filter: FilterStateService;
+  private element: HTMLInputElement;
 
-  constructor(filter: FilterStateService) {
-    this.filter = filter;
-    this.element.checked = this.filter.isFlipped;
+  constructor(data: SaveDataService) {
+    this.data = data;
+
+    this.element = document.querySelector('#input-flip') as HTMLInputElement;
+
+    this.element.checked = this.data.isFlipped;
 
     this.element.addEventListener('change', () => {
-      this.filter.isFlipped = this.element.checked;
+      this.data.isFlipped = this.element.checked;
     });
   }
 
   update(): void {
-    this.element.checked = this.filter.isFlipped;
+    this.element.checked = this.data.isFlipped;
+  }
+
+  reset(): void {
+    this.data.isFlipped = DEFAULT_VALUE.isFlipped;
+    this.update();
   }
 }

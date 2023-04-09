@@ -44,7 +44,6 @@ export default class RootComponent {
     });
 
     this.data.addEventListener(DataEvent.UserChangeFilter, () => {
-      // INPUT on some filter control
       this.data.currentSaveName = '';
       this.saveComp.list.clearSelected();
       this.updateSaveNameCaption();
@@ -52,7 +51,6 @@ export default class RootComponent {
     });
 
     this.data.addEventListener(DataEvent.Loaded, () => {
-      // LIST ITEM click or load from LS ??
       this.filterComp.updateView();
       this.updateSaveNameCaption();
       this.saveComp.list.update();
@@ -60,14 +58,12 @@ export default class RootComponent {
     });
 
     this.data.addEventListener(DataEvent.Saved, () => {
-      // NEW SAVE ADDED - saveItem click
       this.updateSaveNameCaption();
       this.saveComp.list.update();
       this.applyContextScript();
     });
 
     this.data.addEventListener(DataEvent.Deleted, () => {
-      // saveItem click DEL
       this.updateSaveNameCaption();
       this.saveComp.list.update();
     });

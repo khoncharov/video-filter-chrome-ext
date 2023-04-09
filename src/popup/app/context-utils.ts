@@ -1,5 +1,4 @@
 /* eslint-disable object-curly-newline */
-
 import { FilterState } from './types';
 
 function showVideoRect() {
@@ -8,11 +7,12 @@ function showVideoRect() {
   if (container) {
     container.style.border = '1rem dashed magenta';
 
+    const BORDER_TIMEOUT = 500;
     setTimeout(() => {
       if (container) {
         container.style.border = 'none';
       }
-    }, 500);
+    }, BORDER_TIMEOUT);
   }
 }
 
@@ -38,11 +38,11 @@ function changeFilter(
 ): void {
   const container = document.querySelector<HTMLVideoElement>('video');
 
-  const filterStr = `brightness(${brightness}%) contrast(${contrast}%) saturate(${saturation}%)`;
-  const transformStr = `scaleX(${isFlipped ? '-1' : '1'})`;
-
   if (container) {
+    const filterStr = `brightness(${brightness}%) contrast(${contrast}%) saturate(${saturation}%)`;
     container.style.filter = filterStr;
+
+    const transformStr = `scaleX(${isFlipped ? '-1' : '1'})`;
     container.style.transform = transformStr;
   }
 }

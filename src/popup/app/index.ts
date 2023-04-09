@@ -1,7 +1,7 @@
 import FilterComponent from './components/filter';
 import SaveStateComponent from './components/save-state';
 import SaveDataService from './services/data';
-import { changeFilterHandler, showRectHandler } from './utils';
+import { changeFilterHandler, showRectHandler } from './context-utils';
 import { DEFAULT_VALUE } from './constants';
 import { DataEvent } from './types';
 

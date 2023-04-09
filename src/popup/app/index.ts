@@ -42,24 +42,20 @@ export default class RootComponent {
 
     this.data.addEventListener('dataChanged', () => {
       // INPUT on some filter control
-      this.saveComp.clearSelectedItem();
-
+      this.saveComp.list.clearSelected();
       this.applyContextScript();
     });
 
     this.data.addEventListener('dataLoaded', () => {
       // LIST ITEM click or load from LS ??
       this.filterComp.updateView();
-      this.saveComp.updateList();
-
+      this.saveComp.list.update();
       this.applyContextScript();
     });
 
     this.data.addEventListener('dataSaved', () => {
       // NEW SAVE ADDED - saveItem click
-      // this.filter.updateView();
-      this.saveComp.updateList();
-
+      this.saveComp.list.update();
       this.applyContextScript();
     });
   }

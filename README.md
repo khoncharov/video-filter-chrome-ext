@@ -20,4 +20,4 @@ Figma [layout draft](https://www.figma.com/file/hmcOOhND0LHUrJdOEFo8cz/Twitch-vi
 - split data module
 - option page (internationalization, short manual)
 - tests
-- deploy GWC?
+- deploy GWS?

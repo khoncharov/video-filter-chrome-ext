@@ -40,7 +40,7 @@ export default class RootComponent {
     this.applyBtn.addEventListener('click', () => {
       this.isTracking = true;
       this.changeApplyBtn(this.isTracking);
-      changeFilterHandler(this.data.getCurrentFilterState());
+      changeFilterHandler(this.data.currentFilterState);
     });
 
     this.data.addEventListener(DataEvent.UserChangeFilter, () => {
@@ -71,7 +71,7 @@ export default class RootComponent {
 
   applyContextScript(): void {
     if (this.isTracking) {
-      changeFilterHandler(this.data.getCurrentFilterState());
+      changeFilterHandler(this.data.currentFilterState);
     }
   }
 

@@ -10,15 +10,18 @@ export default class SaveDataService extends EventTarget {
 
   constructor() {
     super();
-    this.restoreFromLS();
+    this.restoreFromLocal();
   }
 
   notify(event: DataEvent) {
     this.dispatchEvent(new CustomEvent(event));
   }
 
+  // FILTER ITEMS
+
   set brightness(value: number) {
     this.currentState.brightness = value;
+    this.saveCurrentFilterStateToLocal();
     this.notify(DataEvent.UserChangeFilter);
   }
 
@@ -28,6 +31,7 @@ export default class SaveDataService extends EventTarget {
 
   set contrast(value: number) {
     this.currentState.contrast = value;
+    this.saveCurrentFilterStateToLocal();
     this.notify(DataEvent.UserChangeFilter);
   }
 
@@ -37,6 +41,7 @@ export default class SaveDataService extends EventTarget {
 
   set saturation(value: number) {
     this.currentState.saturation = value;
+    this.saveCurrentFilterStateToLocal();
     this.notify(DataEvent.UserChangeFilter);
   }
 
@@ -46,6 +51,7 @@ export default class SaveDataService extends EventTarget {
 
   set isFlipped(value: boolean) {
     this.currentState.isFlipped = value;
+    this.saveCurrentFilterStateToLocal();
     this.notify(DataEvent.UserChangeFilter);
   }
 
@@ -53,21 +59,29 @@ export default class SaveDataService extends EventTarget {
     return this.currentState.isFlipped;
   }
 
-  loadFilterState(state: FilterState = DEFAULT_VALUE) {
-    this.currentState.brightness = state.brightness;
-    this.currentState.contrast = state.contrast;
-    this.currentState.saturation = state.saturation;
-    this.currentState.isFlipped = state.isFlipped;
+  // FILTER STATE
+
+  saveCurrentFilterStateToLocal() {
+    chrome.storage.local.set({
+      currentFilterState: this.currentState,
+    });
   }
 
-  getCurrentFilterState(): FilterState {
+  set currentFilterState(state: FilterState) {
+    this.currentState = { ...state };
+    this.saveCurrentFilterStateToLocal();
+  }
+
+  get currentFilterState(): FilterState {
     return this.currentState;
   }
 
-  set currentSaveName(value: SaveName) {
-    this.currentName = value;
+  // CURRENT SAVE NAME
+
+  set currentSaveName(name: SaveName) {
+    this.currentName = name;
     chrome.storage.local.set({
-      currentName: value,
+      currentName: name,
     });
   }
 
@@ -115,17 +129,18 @@ export default class SaveDataService extends EventTarget {
   restoreState(name: SaveName) {
     const state = this.getState(name);
     if (state) {
-      this.loadFilterState(state);
-      this.currentName = name;
+      this.currentFilterState = state;
+      this.currentSaveName = name;
     }
 
     this.notify(DataEvent.Loaded);
   }
 
-  restoreFromLS() {
-    chrome.storage.local.get(['savesList', 'currentName']).then((data) => {
+  restoreFromLocal() {
+    chrome.storage.local.get(['savesList', 'currentName', 'currentFilterState']).then((data) => {
       this.storage = new Map<SaveName, FilterState>(JSON.parse(data.savesList ?? '[]'));
       this.currentName = data.currentName ?? '';
+      this.currentFilterState = data.currentFilterState ?? { ...DEFAULT_VALUE };
 
       this.notify(DataEvent.Loaded);
     });

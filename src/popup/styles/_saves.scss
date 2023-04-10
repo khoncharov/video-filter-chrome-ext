@@ -1,0 +1,99 @@
+@use "./variables" as *;
+
+.label-new-name {
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.input-new-name {
+  height: 2.4rem;
+  width: 20ch;
+  font-size: inherit;
+  color: inherit;
+  border: 2px solid $mid-gray;
+  text-indent: 0.4rem;
+  transition: border-color $t-x1;
+
+  &__wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.input-new-name:hover,
+.input-new-name:focus {
+  border-color: $carafe;
+  outline: none;
+}
+
+.radio {
+  margin-right: 0.8rem;
+  width: 2.1rem;
+  height: 2.1rem;
+  border: 2px solid $mid-gray;
+  border-radius: 50%;
+  display: inline-grid;
+  place-content: center;
+  transition: border-color $t-x1;
+
+  &-mark {
+    width: 1.1rem;
+    height: 1.1rem;
+    border-radius: 50%;
+    opacity: 0;
+    background-color: $twitch-purple;
+    transition: opacity $t-x1;
+  }
+}
+
+.input-radio:checked ~ .radio > .radio-mark {
+  opacity: 1;
+}
+
+.save {
+  &__list {
+    margin-top: 1.6rem;
+    max-height: 17.8rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  &__list:empty {
+    margin-top: 0rem;
+  }
+
+  &__item {
+    margin-top: 0.4rem;
+    display: grid;
+    grid-template-columns: 1fr 2.1rem;
+    align-items: center;
+    transition: background-color $t-x1;
+  }
+
+  &__item:hover {
+    background-color: #faf6ff;
+  }
+
+  &__label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  &__caption {
+    max-width: 21ch;
+    border-bottom: 2px solid transparent;
+    transition: border-color $t-x1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__label:hover &__caption {
+    border-color: $carafe;
+  }
+
+  &__label:hover .radio {
+    border-color: $carafe;
+  }
+}

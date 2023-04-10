@@ -6,7 +6,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const baseConfig = {
   entry: {
-    content: path.resolve(__dirname, './src/content/index.ts'),
+    // content: path.resolve(__dirname, './src/content/index.ts'),
     popup: path.resolve(__dirname, './src/popup/index.ts'),
   },
   module: {
@@ -43,7 +43,10 @@ const baseConfig = {
       chunks: ['popup'],
     }),
     new CopyPlugin({
-      patterns: [{ from: './src/manifest.json', to: './manifest.json' }],
+      patterns: [
+        { from: './src/manifest.json', to: './manifest.json' },
+        { from: './src/assets', to: './assets' },
+      ],
     }),
     new CleanWebpackPlugin(),
   ],

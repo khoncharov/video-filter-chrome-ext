@@ -32,7 +32,7 @@ export default function createSaveItem(name: string, data: SaveDataService): HTM
   item.querySelector('input')?.addEventListener('click', selectItemHandler);
 
   const deleteBtnHandler = () => {
-    data.deleteItem(name);
+    data.deleteSavedState(name);
     item.removeEventListener('click', selectItemHandler);
     item.removeEventListener('click', deleteBtnHandler);
   };

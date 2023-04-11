@@ -1,5 +1,5 @@
 /* eslint-disable object-curly-newline */
-import { FilterState } from './types';
+import { FilterState } from './services/types';
 
 function showVideoRect() {
   const container = document.querySelector<HTMLVideoElement>('video');

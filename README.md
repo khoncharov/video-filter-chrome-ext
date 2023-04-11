@@ -19,7 +19,7 @@ Figma [layout draft](https://www.figma.com/file/hmcOOhND0LHUrJdOEFo8cz/Twitch-vi
 ## TODO list
 
 - focus visible and keyboard navigation
-- split data module
-- option page (internationalization, short manual)
+- [x] split data module
 - tests
+- option page (internationalization, short manual)
 - deploy GWS?

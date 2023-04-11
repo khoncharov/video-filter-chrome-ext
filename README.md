@@ -1,4 +1,6 @@
-## Filter functions
+# Video filter chrome extension
+
+## Extension functions
 
 1. Find & show video container on the page
 2. Change video brightness, contrast, saturation
@@ -14,10 +16,10 @@
 
 Figma [layout draft](https://www.figma.com/file/hmcOOhND0LHUrJdOEFo8cz/Twitch-video-filter?t=FC0zW5v5bj7pRjJ2-6)
 
-## TODOs
+## TODO list
 
 - focus visible and keyboard navigation
-- split data module
-- option page (internationalization, short manual)
+- [x] split data module
 - tests
+- option page (internationalization, short manual)
 - deploy GWS?

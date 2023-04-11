@@ -3,7 +3,7 @@ import SaveStateComponent from './components/save-state';
 import SaveDataService from './services/data';
 import { changeFilterHandler, showRectHandler } from './context-utils';
 import { DEFAULT_VALUE } from './constants';
-import { DataEvent } from './types';
+import { DataEvent } from './services/types';
 
 export default class RootComponent {
   private showRectBtn = document.querySelector('#show-rect-btn') as HTMLButtonElement;
@@ -44,7 +44,6 @@ export default class RootComponent {
     });
 
     this.data.addEventListener(DataEvent.UserChangeFilter, () => {
-      this.data.currentSaveName = '';
       this.saveComp.list.clearSelected();
       this.updateSaveNameCaption();
       this.applyContextScript();

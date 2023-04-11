@@ -12,7 +12,7 @@ export default class ListComponent {
 
   update(): void {
     this.list.innerHTML = '';
-    this.data.forEach((value, name) => {
+    this.data.savesStorage.forEach((value, name) => {
       this.list.appendChild(createSaveItem(name, this.data));
     });
   }

@@ -21,7 +21,7 @@ export default class InputFormComponent {
 
     this.addBtn.addEventListener('click', () => {
       const saveName = this.nameInput.value.trim();
-      data.saveItem(saveName);
+      data.saveState(saveName);
       this.nameInput.value = '';
 
       this.update();

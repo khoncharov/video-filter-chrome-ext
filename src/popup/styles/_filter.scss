@@ -36,6 +36,7 @@
   transition: border-color $t-x1;
 
   &-mark {
+    display: block;
     width: 0.9rem;
     height: 0.9rem;
     background-color: $twitch-purple;

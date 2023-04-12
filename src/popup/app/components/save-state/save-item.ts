@@ -8,9 +8,9 @@ export default function createSaveItem(name: string, data: SaveDataService): HTM
   item.innerHTML = `      
     <label class="save__label">
       <input class="input-radio" type="radio" name="loaded-item"/>
-      <div class="radio">
-        <div class="radio-mark"></div>
-      </div>
+      <span class="radio">
+        <span class="radio-mark"></span>
+      </span>
       <span class="save__caption" id="save-caption"></span>
     </label>
     <button class="btn-delete" type="button" aria-label="Delete value">
@@ -22,7 +22,7 @@ export default function createSaveItem(name: string, data: SaveDataService): HTM
       </svg>
     </button>`;
 
-  (item.querySelector('#save-caption') as HTMLSpanElement).textContent = name;
+  (item.querySelector('span#save-caption') as HTMLSpanElement).textContent = name;
 
   (item.querySelector('input') as HTMLInputElement).checked = data.currentSaveName === name;
 

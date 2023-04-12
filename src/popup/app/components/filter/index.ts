@@ -21,7 +21,7 @@ export default class FilterComponent {
     this.rangeSaturation = new RangeComponent('saturation', this.data);
     this.flipVideo = new FlipVideoComponent(this.data);
 
-    const btnReset = document.querySelector('#btn-reset') as HTMLButtonElement;
+    const btnReset = document.querySelector('button#btn-reset') as HTMLButtonElement;
     btnReset.addEventListener('click', () => {
       this.rangeBrightness.reset();
       this.rangeContrast.reset();

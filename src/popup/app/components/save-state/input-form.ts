@@ -2,9 +2,9 @@ import { MAX_SAVE_NAME_LENGTH } from '../../constants';
 import SaveDataService from '../../services/data';
 
 export default class InputFormComponent {
-  private nameInput = document.querySelector('#input-save-name') as HTMLInputElement;
+  private nameInput = document.querySelector('input#input-save-name') as HTMLInputElement;
 
-  private addBtn = document.querySelector('#btn-add-name') as HTMLButtonElement;
+  private addBtn = document.querySelector('button#btn-add-name') as HTMLButtonElement;
 
   constructor(data: SaveDataService) {
     this.nameInput.addEventListener('input', () => {

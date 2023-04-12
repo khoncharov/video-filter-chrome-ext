@@ -9,7 +9,7 @@ export default class FlipVideoComponent {
   constructor(data: SaveDataService) {
     this.data = data;
 
-    this.element = document.querySelector('#input-flip') as HTMLInputElement;
+    this.element = document.querySelector('input#input-flip') as HTMLInputElement;
 
     this.element.checked = this.data.isFlipped;
 

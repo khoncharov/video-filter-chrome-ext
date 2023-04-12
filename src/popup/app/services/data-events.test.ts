@@ -8,6 +8,6 @@ describe('Test DataEventTarget class', () => {
 
   test('Should call callback function', () => {
     obj.notify(DataEvent.Saved);
-    expect(cb).toBeCalled();
+    expect(cb.mock.calls.length).toEqual(1);
   });
 });

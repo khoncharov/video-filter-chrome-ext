@@ -4,30 +4,7 @@ import { DEFAULT_VALUE } from '../constants';
 import { loadFromLocal, saveToLocal } from './local-storage-utils';
 import { FilterState, SaveName } from './types';
 
-jest.mock('./chrome-utils', () => {
-  const db = new Map<string, string>();
-  return {
-    __esModule: true,
-
-    load: async (args: string[]) => {
-      const result: [string, string][] = [];
-      args.forEach((arg) => {
-        if (db.has(arg)) {
-          result.push([arg, JSON.parse(db.get(arg) as string)]);
-        }
-      });
-      return Object.fromEntries(result);
-    },
-
-    save: async (items: {
-      [key: string]: string | FilterState | Array<[SaveName, FilterState]>;
-    }) => {
-      for (const entry of Object.entries(items)) {
-        db.set(entry[0], JSON.stringify(entry[1]));
-      }
-    },
-  };
-});
+jest.mock('./chrome-utils');
 
 describe('Functions to interact with extension local storage', () => {
   test('Should load default app state from empty local storage', async () => {

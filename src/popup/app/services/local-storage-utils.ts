@@ -11,8 +11,8 @@ type LSItems = {
 type LSNames = keyof LSItems;
 
 export const saveToLocal = (items: Partial<LSItems>): void => {
-  if (!Object.keys(items)) {
-    throw new Error('Item name for storage is missing');
+  if (!Object.keys(items).length) {
+    throw new Error('At least one key should be provided');
   }
 
   const { currentName, currentFilterState, savesStorage } = items;

@@ -52,8 +52,7 @@
 }
 
 .input-radio:focus-visible ~ .radio {
-  outline: 0.2rem dashed $carafe;
-  outline-offset: 2px;
+  border-color: $carafe;
 }
 
 .save {
@@ -95,11 +94,12 @@
     text-overflow: ellipsis;
   }
 
-  &__label:hover &__caption {
-    border-color: $carafe;
-  }
-
+  &__label:hover &__caption,
   &__label:hover .radio {
     border-color: $carafe;
   }
+}
+
+.input-radio:focus-visible ~ .save__caption {
+  border-color: $carafe;
 }

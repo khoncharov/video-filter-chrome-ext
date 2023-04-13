@@ -16,8 +16,8 @@ export default class RangeComponent {
     this.rangeName = rangeName;
     this.data = data;
 
-    const element = document.querySelector(`#component-${rangeName}`) as HTMLElement;
-    this.textValue = element.querySelector('.ctrl__value') as HTMLParagraphElement;
+    const element = document.querySelector(`div#component-${rangeName}`) as HTMLElement;
+    this.textValue = element.querySelector('p.ctrl__value') as HTMLParagraphElement;
     this.range = element.querySelector('input') as HTMLInputElement;
     const resetBtn = element.querySelector('button') as HTMLButtonElement;
 

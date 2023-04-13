@@ -36,15 +36,26 @@
   transition: border-color $t-x1;
 
   &-mark {
-    width: 0.9rem;
-    height: 0.9rem;
+    display: block;
+    width: 1rem;
+    height: 1rem;
     background-color: $twitch-purple;
     opacity: 0;
     transition: opacity $t-x1;
+
+    @media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 120dpi) {
+      width: 0.9rem;
+      height: 0.9rem;
+    }
   }
 
   #input-flip:checked ~ * &-mark {
     opacity: 1;
+  }
+
+  #input-flip:focus-visible ~ & {
+    outline: 0.2rem dashed $carafe;
+    outline-offset: 2px;
   }
 
   &-flip-label {

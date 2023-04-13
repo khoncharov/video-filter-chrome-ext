@@ -2,7 +2,7 @@ import SaveDataService from '../../services/data';
 import createSaveItem from './save-item';
 
 export default class ListComponent {
-  private list = document.querySelector('#list-saves') as HTMLUListElement;
+  private list = document.querySelector('ul#list-saves') as HTMLUListElement;
 
   private data: SaveDataService;
 

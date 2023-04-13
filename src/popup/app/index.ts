@@ -6,15 +6,15 @@ import { DEFAULT_VALUE } from './constants';
 import { DataEvent } from './services/types';
 
 export default class RootComponent {
-  private showRectBtn = document.querySelector('#show-rect-btn') as HTMLButtonElement;
+  private showRectBtn = document.querySelector('button#show-rect-btn') as HTMLButtonElement;
 
-  private defaultBtn = document.querySelector('#default-btn') as HTMLButtonElement;
+  private defaultBtn = document.querySelector('button#default-btn') as HTMLButtonElement;
 
-  private applyBtn = document.querySelector('#apply-btn') as HTMLButtonElement;
+  private applyBtn = document.querySelector('button#apply-btn') as HTMLButtonElement;
 
-  private saveNameCaption = document.querySelector('#save-name-caption') as HTMLSpanElement;
+  private saveNameCaption = document.querySelector('span#save-name-caption') as HTMLSpanElement;
 
-  public isTracking: boolean = false;
+  private isTracking: boolean = false;
 
   private data = new SaveDataService();
 
@@ -53,6 +53,11 @@ export default class RootComponent {
       this.filterComp.updateView();
       this.updateSaveNameCaption();
       this.saveComp.list.update();
+    });
+
+    this.data.addEventListener(DataEvent.Selected, () => {
+      this.filterComp.updateView();
+      this.updateSaveNameCaption();
       this.applyContextScript();
     });
 

@@ -18,7 +18,7 @@ export default class SaveDataService extends FilterDataService {
     });
   }
 
-  async loadAppState(): Promise<void> {
+  private async loadAppState(): Promise<void> {
     const { currentName, currentFilterState, savesStorage } = await loadFromLocal();
     this.filterState = currentFilterState;
     this.currentName = currentName;
@@ -57,6 +57,6 @@ export default class SaveDataService extends FilterDataService {
       saveToLocal({ currentName: this.currentName, currentFilterState: state });
     }
 
-    this.notify(DataEvent.Loaded);
+    this.notify(DataEvent.Selected);
   }
 }

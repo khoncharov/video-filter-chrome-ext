@@ -12,6 +12,7 @@ describe('Test SaveDataService class', () => {
   const onSaveCallback = jest.fn();
   const onDeleteCallback = jest.fn();
   const onLoadCallback = jest.fn();
+  const onSelectCallback = jest.fn();
 
   const saveName1 = 'First save';
   const state1 = { brightness: 101, contrast: 102, saturation: 103, isFlipped: true };
@@ -23,6 +24,7 @@ describe('Test SaveDataService class', () => {
   service.addEventListener(DataEvent.Saved, onSaveCallback);
   service.addEventListener(DataEvent.Deleted, onDeleteCallback);
   service.addEventListener(DataEvent.Loaded, onLoadCallback);
+  service.addEventListener(DataEvent.Selected, onSelectCallback);
 
   test('Should be correctly initialized', () => {
     expect(service.currentSaveName).toEqual('');
@@ -74,6 +76,7 @@ describe('Test SaveDataService class', () => {
   test('Should notify on data event', () => {
     expect(onSaveCallback.mock.calls.length).toEqual(3);
     expect(onDeleteCallback.mock.calls.length).toEqual(1);
-    expect(onLoadCallback.mock.calls.length).toEqual(2); // init + restore
+    expect(onLoadCallback.mock.calls.length).toEqual(1);
+    expect(onSelectCallback.mock.calls.length).toEqual(1);
   });
 });

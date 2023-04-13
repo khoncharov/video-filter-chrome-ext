@@ -12,4 +12,5 @@ export enum DataEvent {
   Loaded = 'dataLoaded',
   Saved = 'dataSaved',
   Deleted = 'dataDeleted',
+  Selected = 'dataSelected',
 }

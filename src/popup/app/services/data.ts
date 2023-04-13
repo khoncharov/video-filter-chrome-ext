@@ -57,6 +57,6 @@ export default class SaveDataService extends FilterDataService {
       saveToLocal({ currentName: this.currentName, currentFilterState: state });
     }
 
-    this.notify(DataEvent.Loaded);
+    this.notify(DataEvent.Selected);
   }
 }

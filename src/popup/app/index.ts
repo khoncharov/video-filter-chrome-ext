@@ -53,6 +53,11 @@ export default class RootComponent {
       this.filterComp.updateView();
       this.updateSaveNameCaption();
       this.saveComp.list.update();
+    });
+
+    this.data.addEventListener(DataEvent.Selected, () => {
+      this.filterComp.updateView();
+      this.updateSaveNameCaption();
       this.applyContextScript();
     });
 

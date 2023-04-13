@@ -51,6 +51,11 @@
   opacity: 1;
 }
 
+.input-radio:focus-visible ~ .radio {
+  outline: 0.2rem dashed $carafe;
+  outline-offset: 2px;
+}
+
 .save {
   &__list {
     margin-top: 1.6rem;

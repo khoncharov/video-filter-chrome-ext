@@ -69,7 +69,6 @@ export default class RootComponent {
 
     this.data.addEventListener(DataEvent.Deleted, () => {
       this.updateSaveNameCaption();
-      this.saveComp.list.update();
     });
   }
 

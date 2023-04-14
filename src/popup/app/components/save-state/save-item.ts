@@ -11,7 +11,7 @@ export default function createSaveItem(name: string, data: SaveDataService): HTM
       <span class="radio">
         <span class="radio-mark"></span>
       </span>
-      <span class="save__caption" id="save-caption"></span>
+      <span class="save__caption"></span>
     </label>
     <button class="btn-delete" type="button" aria-label="Delete save: ${name}" tabindex="5">
       <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
@@ -22,15 +22,15 @@ export default function createSaveItem(name: string, data: SaveDataService): HTM
       </svg>
     </button>`;
 
-  (item.querySelector('span#save-caption') as HTMLSpanElement).textContent = name;
+  (item.querySelector('span.save__caption') as HTMLSpanElement).textContent = name;
 
   const radio = item.querySelector('input') as HTMLInputElement;
   radio.checked = data.currentSaveName === name;
 
-  const focusinHandler = () => {
+  const focusHandler = () => {
     item.scrollIntoView({ behavior: 'smooth' });
   };
-  radio.addEventListener('focus', focusinHandler);
+  radio.addEventListener('focus', focusHandler);
 
   const selectItemHandler = () => {
     data.restoreState(name);
@@ -40,8 +40,9 @@ export default function createSaveItem(name: string, data: SaveDataService): HTM
   const deleteBtnHandler = () => {
     data.deleteSavedState(name);
     item.removeEventListener('click', selectItemHandler);
-    item.removeEventListener('focus', focusinHandler);
+    item.removeEventListener('focus', focusHandler);
     item.removeEventListener('click', deleteBtnHandler);
+    item.remove();
   };
   item.querySelector('button')?.addEventListener('click', deleteBtnHandler);
 

@@ -8,13 +8,11 @@ import { DataEvent } from './services/types';
 export default class RootComponent {
   private showRectBtn = document.querySelector('button#show-rect-btn') as HTMLButtonElement;
 
-  private defaultBtn = document.querySelector('button#default-btn') as HTMLButtonElement;
-
   private applyBtn = document.querySelector('button#apply-btn') as HTMLButtonElement;
 
   private saveNameCaption = document.querySelector('span#save-name-caption') as HTMLSpanElement;
 
-  private isTracking: boolean = false;
+  private isFilterApplied: boolean = false;
 
   private data = new SaveDataService();
 
@@ -31,16 +29,18 @@ export default class RootComponent {
   init(): void {
     this.showRectBtn.addEventListener('click', showRectHandler);
 
-    this.defaultBtn.addEventListener('click', () => {
-      this.isTracking = false;
-      this.changeApplyBtn(this.isTracking);
-      changeFilterHandler(DEFAULT_VALUE);
-    });
-
     this.applyBtn.addEventListener('click', () => {
-      this.isTracking = true;
-      this.changeApplyBtn(this.isTracking);
-      changeFilterHandler(this.data.currentFilterState);
+      if (this.isFilterApplied) {
+        this.isFilterApplied = false;
+        this.applyBtn.innerText = 'apply';
+        this.applyBtn.classList.add('btn-apply');
+        changeFilterHandler(DEFAULT_VALUE);
+      } else {
+        this.isFilterApplied = true;
+        this.applyBtn.innerText = 'default';
+        this.applyBtn.classList.remove('btn-apply');
+        changeFilterHandler(this.data.currentFilterState);
+      }
     });
 
     this.data.addEventListener(DataEvent.UserChangeFilter, () => {
@@ -73,18 +73,8 @@ export default class RootComponent {
   }
 
   applyContextScript(): void {
-    if (this.isTracking) {
+    if (this.isFilterApplied) {
       changeFilterHandler(this.data.currentFilterState);
-    }
-  }
-
-  changeApplyBtn(isTracking: boolean): void {
-    if (isTracking) {
-      this.applyBtn.innerText = 'track';
-      this.applyBtn.classList.add('btn-tracking-mode');
-    } else {
-      this.applyBtn.innerText = 'apply';
-      this.applyBtn.classList.remove('btn-tracking-mode');
     }
   }
 

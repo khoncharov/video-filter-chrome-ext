@@ -33,13 +33,15 @@ export default class RootComponent {
       if (this.isFilterApplied) {
         this.isFilterApplied = false;
         this.applyBtn.innerText = 'apply';
-        this.applyBtn.classList.add('btn-apply');
         changeFilterHandler(DEFAULT_VALUE);
+        // chrome.action.setBadgeText({ text: '' });
+        // chrome.action.setBadgeBackgroundColor({ color: '#000' });
       } else {
         this.isFilterApplied = true;
-        this.applyBtn.innerText = 'default';
-        this.applyBtn.classList.remove('btn-apply');
+        this.applyBtn.innerText = 'cancel';
         changeFilterHandler(this.data.currentFilterState);
+        // chrome.action.setBadgeText({ text: 'ON' });
+        // chrome.action.setBadgeBackgroundColor({ color: '#000' });
       }
     });
 

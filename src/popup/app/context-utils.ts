@@ -7,7 +7,7 @@ function showVideoRect() {
   if (container) {
     container.style.border = '1rem dashed magenta';
 
-    const BORDER_TIMEOUT = 500;
+    const BORDER_TIMEOUT = 1000;
     setTimeout(() => {
       if (container) {
         container.style.border = 'none';

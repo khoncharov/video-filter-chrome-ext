@@ -13,7 +13,9 @@ export default class ListComponent {
   update(): void {
     this.list.innerHTML = '';
     this.data.savesStorage.forEach((value, name) => {
-      this.list.appendChild(createSaveItem(name, this.data));
+      const item = createSaveItem(name, this.data);
+      this.list.appendChild(item);
+      item.scrollIntoView({ behavior: 'smooth' });
     });
   }
 

@@ -17,13 +17,13 @@ export const saveToLocal = (items: Partial<LSItems>): void => {
 
   const { currentName, currentFilterState, savesStorage } = items;
 
-  if (currentName !== undefined) {
+  if (currentName) {
     save({ currentName });
   }
-  if (currentFilterState !== undefined) {
+  if (currentFilterState) {
     save({ currentFilterState });
   }
-  if (savesStorage !== undefined) {
+  if (savesStorage) {
     save({ savesStorage: Array.from(savesStorage) });
   }
 };

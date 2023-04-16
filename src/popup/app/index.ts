@@ -35,6 +35,7 @@ export default class RootComponent {
       } else {
         this.isFilterApplied = true;
         this.applyBtn.innerText = 'cancel';
+        changeFilterHandler(filterData.getState());
       }
     });
 
@@ -48,7 +49,7 @@ export default class RootComponent {
     filterState.addEventListener(FilterEvent.Loaded, () => {
       this.filterComp.updateView();
       this.updateSaveNameCaption();
-      this.savesListComp.update();
+      this.savesListComp.redraw();
     });
 
     filterState.addEventListener(FilterEvent.Selected, () => {
@@ -59,7 +60,7 @@ export default class RootComponent {
 
     filterState.addEventListener(FilterEvent.Saved, () => {
       this.updateSaveNameCaption();
-      this.savesListComp.update();
+      this.savesListComp.redraw();
       this.applyContextScript();
     });
 

@@ -4,8 +4,9 @@ import filterState from '../../services/filter-state';
 export default function createSaveItem(name: string): HTMLElement {
   const item = document.createElement('li');
   item.className = 'save__item';
+  item.dataset.name = name;
 
-  item.innerHTML = `      
+  item.innerHTML = `
     <label class="save__label">
       <input class="input-radio" type="radio" name="loaded-item"/>
       <span class="radio">
@@ -28,7 +29,7 @@ export default function createSaveItem(name: string): HTMLElement {
   radio.checked = filterState.getCurrentSaveName() === name;
 
   const focusHandler = () => {
-    item.scrollIntoView({ behavior: 'smooth' });
+    item.scrollIntoView({ behavior: 'smooth', block: 'end' });
   };
   radio.addEventListener('focus', focusHandler);
 

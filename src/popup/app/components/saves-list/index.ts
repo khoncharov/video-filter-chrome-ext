@@ -1,3 +1,4 @@
+/* eslint-disable operator-linebreak */
 import filterState from '../../services/filter-state';
 import InputFormComponent from './input-form';
 import createSaveItem from './save-item';
@@ -11,12 +12,18 @@ export default class SavesListComponent {
     this.inputForm = new InputFormComponent();
   }
 
-  update(): void {
+  redraw(): void {
     this.list.innerHTML = '';
     filterState.savesStorage.forEach((value, name) => {
       const item = createSaveItem(name);
       this.list.appendChild(item);
-      item.scrollIntoView({ behavior: 'smooth' }); // FIXME - func for save operation
+
+      const isSelected =
+        item.dataset.name && item.dataset.name === filterState.getCurrentSaveName();
+
+      if (isSelected) {
+        item.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      }
     });
   }
 

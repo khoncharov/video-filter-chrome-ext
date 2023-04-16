@@ -29,7 +29,7 @@ export default function createSaveItem(name: string): HTMLElement {
   radio.checked = filterState.getCurrentSaveName() === name;
 
   const focusHandler = () => {
-    item.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    item.scrollIntoView({ behavior: 'smooth', block: 'center' });
   };
   radio.addEventListener('focus', focusHandler);
 

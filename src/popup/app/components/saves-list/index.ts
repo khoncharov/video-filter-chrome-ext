@@ -22,7 +22,7 @@ export default class SavesListComponent {
         item.dataset.name && item.dataset.name === filterState.getCurrentSaveName();
 
       if (isSelected) {
-        item.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        item.scrollIntoView({ behavior: 'smooth' });
       }
     });
   }

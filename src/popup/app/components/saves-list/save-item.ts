@@ -25,7 +25,7 @@ export default function createSaveItem(name: string): HTMLElement {
   (item.querySelector('span.save__caption') as HTMLSpanElement).textContent = name;
 
   const radio = item.querySelector('input') as HTMLInputElement;
-  radio.checked = filterState.currentSaveName === name;
+  radio.checked = filterState.getCurrentSaveName() === name;
 
   const focusHandler = () => {
     item.scrollIntoView({ behavior: 'smooth' });

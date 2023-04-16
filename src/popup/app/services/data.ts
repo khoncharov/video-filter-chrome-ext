@@ -1,62 +1,68 @@
-import FilterDataService from './filter-state';
+import AppFilterEventTarget from './data-events';
+import filterData from './filter-state';
 import { loadFromLocal, saveToLocal } from './local-storage-utils';
-import { DataEvent, FilterState, SaveName } from './types';
+import { FilterEvent, FilterState, SaveName } from './types';
 
-export default class SaveDataService extends FilterDataService {
+class FilterStateService extends AppFilterEventTarget {
   public savesStorage = new Map<SaveName, FilterState>();
 
   private currentName: SaveName = '';
 
   constructor() {
     super();
-
     this.loadAppState();
-
-    this.addEventListener(DataEvent.UserChangeFilter, () => {
-      this.currentName = '';
-      saveToLocal({ currentName: this.currentSaveName, currentFilterState: this.filterState });
-    });
   }
 
   private async loadAppState(): Promise<void> {
     const { currentName, currentFilterState, savesStorage } = await loadFromLocal();
-    this.filterState = currentFilterState;
+    filterData.setState(currentFilterState);
     this.currentName = currentName;
     this.savesStorage = savesStorage;
 
-    this.notify(DataEvent.Loaded);
+    this.notify(FilterEvent.Loaded);
+  }
+
+  set currentSaveName(value: SaveName) {
+    this.currentName = value;
+    saveToLocal({
+      currentName: this.currentName,
+      currentFilterState: filterData.getState(),
+    });
   }
 
   get currentSaveName() {
     return this.currentName;
   }
 
-  saveState(name: SaveName) {
-    this.savesStorage.set(name, { ...this.filterState });
+  save(name: SaveName) {
+    this.savesStorage.set(name, { ...filterData.getState() });
     this.currentName = name;
     saveToLocal({ currentName: this.currentName, savesStorage: this.savesStorage });
 
-    this.notify(DataEvent.Saved);
+    this.notify(FilterEvent.Saved);
   }
 
-  deleteSavedState(name: SaveName) {
+  delete(name: SaveName) {
     this.savesStorage.delete(name);
     if (name === this.currentName) {
       this.currentName = '';
     }
     saveToLocal({ currentName: this.currentName, savesStorage: this.savesStorage });
 
-    this.notify(DataEvent.Deleted);
+    this.notify(FilterEvent.Deleted);
   }
 
-  restoreState(name: SaveName) {
+  restore(name: SaveName) {
     const state = this.savesStorage.get(name);
     if (state) {
-      this.filterState = { ...state };
+      filterData.setState(state);
       this.currentName = name;
       saveToLocal({ currentName: this.currentName, currentFilterState: state });
     }
 
-    this.notify(DataEvent.Selected);
+    this.notify(FilterEvent.Selected);
   }
 }
+
+const filterState = new FilterStateService();
+export default filterState;

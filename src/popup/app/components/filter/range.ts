@@ -1,20 +1,17 @@
 import { DEFAULT_VALUE } from '../../constants';
-import SaveDataService from '../../services/data';
+import filterData from '../../services/filter-state';
 
 type RangeName = 'brightness' | 'contrast' | 'saturation';
 
 export default class RangeComponent {
   private rangeName: RangeName;
 
-  private data: SaveDataService;
-
   private textValue: HTMLParagraphElement;
 
   private range: HTMLInputElement;
 
-  constructor(rangeName: RangeName, data: SaveDataService) {
+  constructor(rangeName: RangeName) {
     this.rangeName = rangeName;
-    this.data = data;
 
     const element = document.querySelector(`div#component-${rangeName}`) as HTMLElement;
     this.textValue = element.querySelector('p.ctrl__value') as HTMLParagraphElement;
@@ -24,7 +21,7 @@ export default class RangeComponent {
     this.update();
 
     this.range.addEventListener('input', () => {
-      this.data[`${rangeName}`] = Number(this.range.value);
+      filterData[`${rangeName}`] = Number(this.range.value);
       this.update();
     });
 
@@ -34,12 +31,12 @@ export default class RangeComponent {
   }
 
   update() {
-    this.range.value = this.data[`${this.rangeName}`].toString();
+    this.range.value = filterData[`${this.rangeName}`].toString();
     this.textValue.textContent = this.range.value;
   }
 
   reset() {
-    this.data[`${this.rangeName}`] = DEFAULT_VALUE[`${this.rangeName}`];
+    filterData[`${this.rangeName}`] = DEFAULT_VALUE[`${this.rangeName}`];
     this.update();
   }
 }

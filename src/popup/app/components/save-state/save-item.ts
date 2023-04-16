@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
-import SaveDataService from '../../services/data';
+import filterState from '../../services/data';
 
-export default function createSaveItem(name: string, data: SaveDataService): HTMLElement {
+export default function createSaveItem(name: string): HTMLElement {
   const item = document.createElement('li');
   item.className = 'save__item';
 
@@ -25,7 +25,7 @@ export default function createSaveItem(name: string, data: SaveDataService): HTM
   (item.querySelector('span.save__caption') as HTMLSpanElement).textContent = name;
 
   const radio = item.querySelector('input') as HTMLInputElement;
-  radio.checked = data.currentSaveName === name;
+  radio.checked = filterState.currentSaveName === name;
 
   const focusHandler = () => {
     item.scrollIntoView({ behavior: 'smooth' });
@@ -33,12 +33,12 @@ export default function createSaveItem(name: string, data: SaveDataService): HTM
   radio.addEventListener('focus', focusHandler);
 
   const selectItemHandler = () => {
-    data.restoreState(name);
+    filterState.restore(name);
   };
   item.querySelector('input')?.addEventListener('click', selectItemHandler);
 
   const deleteBtnHandler = () => {
-    data.deleteSavedState(name);
+    filterState.delete(name);
     item.removeEventListener('click', selectItemHandler);
     item.removeEventListener('focus', focusHandler);
     item.removeEventListener('click', deleteBtnHandler);

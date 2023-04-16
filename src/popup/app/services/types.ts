@@ -7,8 +7,8 @@ export interface FilterState {
   isFlipped: boolean;
 }
 
-export enum DataEvent {
-  UserChangeFilter = 'userChangeFilter',
+export enum FilterEvent {
+  UserChange = 'userChange',
   Loaded = 'dataLoaded',
   Saved = 'dataSaved',
   Deleted = 'dataDeleted',

@@ -1,9 +1,10 @@
 import FilterComponent from './components/filter';
-import SaveStateComponent from './components/save-state';
-import SaveDataService from './services/data';
 import { changeFilterHandler, showRectHandler } from './context-utils';
 import { DEFAULT_VALUE } from './constants';
-import { DataEvent } from './services/types';
+import { FilterEvent } from './services/types';
+import filterData from './services/filter-state';
+import filterState from './services/data';
+import SavesListComponent from './components/save-state';
 
 export default class RootComponent {
   private showRectBtn = document.querySelector('button#show-rect-btn') as HTMLButtonElement;
@@ -14,16 +15,13 @@ export default class RootComponent {
 
   private isFilterApplied: boolean = false;
 
-  private data = new SaveDataService();
-
   private filterComp: FilterComponent;
 
-  private saveComp: SaveStateComponent;
+  private savesListComp: SavesListComponent;
 
   constructor() {
-    this.filterComp = new FilterComponent(this.data);
-
-    this.saveComp = new SaveStateComponent(this.data);
+    this.filterComp = new FilterComponent();
+    this.savesListComp = new SavesListComponent();
   }
 
   init(): void {
@@ -34,54 +32,50 @@ export default class RootComponent {
         this.isFilterApplied = false;
         this.applyBtn.innerText = 'apply';
         changeFilterHandler(DEFAULT_VALUE);
-        // chrome.action.setBadgeText({ text: '' });
-        // chrome.action.setBadgeBackgroundColor({ color: '#000' });
       } else {
         this.isFilterApplied = true;
         this.applyBtn.innerText = 'cancel';
-        changeFilterHandler(this.data.currentFilterState);
-        // chrome.action.setBadgeText({ text: 'ON' });
-        // chrome.action.setBadgeBackgroundColor({ color: '#000' });
       }
     });
 
-    this.data.addEventListener(DataEvent.UserChangeFilter, () => {
-      this.saveComp.list.clearSelected();
+    filterData.addEventListener(FilterEvent.UserChange, () => {
+      filterState.currentSaveName = '';
+      this.savesListComp.clearSelected();
       this.updateSaveNameCaption();
       this.applyContextScript();
     });
 
-    this.data.addEventListener(DataEvent.Loaded, () => {
+    filterState.addEventListener(FilterEvent.Loaded, () => {
       this.filterComp.updateView();
       this.updateSaveNameCaption();
-      this.saveComp.list.update();
+      this.savesListComp.update();
     });
 
-    this.data.addEventListener(DataEvent.Selected, () => {
+    filterState.addEventListener(FilterEvent.Selected, () => {
       this.filterComp.updateView();
       this.updateSaveNameCaption();
       this.applyContextScript();
     });
 
-    this.data.addEventListener(DataEvent.Saved, () => {
+    filterState.addEventListener(FilterEvent.Saved, () => {
       this.updateSaveNameCaption();
-      this.saveComp.list.update();
+      this.savesListComp.update();
       this.applyContextScript();
     });
 
-    this.data.addEventListener(DataEvent.Deleted, () => {
+    filterState.addEventListener(FilterEvent.Deleted, () => {
       this.updateSaveNameCaption();
     });
   }
 
   applyContextScript(): void {
     if (this.isFilterApplied) {
-      changeFilterHandler(this.data.currentFilterState);
+      changeFilterHandler(filterData.getState());
     }
   }
 
   updateSaveNameCaption(): void {
-    const currentName = this.data.currentSaveName ? ` - ${this.data.currentSaveName}` : '';
+    const currentName = filterState.currentSaveName ? ` - ${filterState.currentSaveName}` : '';
     this.saveNameCaption.textContent = currentName;
   }
 }

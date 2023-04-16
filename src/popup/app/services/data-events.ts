@@ -1,7 +1,7 @@
-import { DataEvent } from './types';
+import { FilterEvent } from './types';
 
-export default class DataEventTarget extends EventTarget {
-  notify(event: DataEvent) {
+export default class FilterEventTarget extends EventTarget {
+  notify(event: FilterEvent) {
     this.dispatchEvent(new Event(event));
   }
 }

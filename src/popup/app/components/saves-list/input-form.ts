@@ -1,5 +1,5 @@
 import { MAX_SAVE_NAME_LENGTH } from '../../constants';
-import filterState from '../../services/data';
+import filterState from '../../services/filter-state';
 
 export default class InputFormComponent {
   private nameInput = document.querySelector('input#input-save-name') as HTMLInputElement;

@@ -1,5 +1,5 @@
 import { DEFAULT_VALUE } from '../../constants';
-import filterData from '../../services/filter-state';
+import filterData from '../../services/filter-data';
 
 export default class FlipVideoComponent {
   private element: HTMLInputElement;

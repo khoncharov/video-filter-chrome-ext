@@ -2,9 +2,9 @@ import FilterComponent from './components/filter';
 import { changeFilterHandler, showRectHandler } from './context-utils';
 import { DEFAULT_VALUE } from './constants';
 import { FilterEvent } from './services/types';
-import filterData from './services/filter-state';
-import filterState from './services/data';
-import SavesListComponent from './components/save-state';
+import filterData from './services/filter-data';
+import filterState from './services/filter-state';
+import SavesListComponent from './components/saves-list';
 
 export default class RootComponent {
   private showRectBtn = document.querySelector('button#show-rect-btn') as HTMLButtonElement;

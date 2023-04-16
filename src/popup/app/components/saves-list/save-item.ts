@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import filterState from '../../services/data';
+import filterState from '../../services/filter-state';
 
 export default function createSaveItem(name: string): HTMLElement {
   const item = document.createElement('li');

@@ -1,54 +1,68 @@
-import { DEFAULT_VALUE } from '../constants';
-import FilterEventTarget from './data-events';
-import { FilterEvent, FilterState } from './types';
+import AppFilterEventTarget from './filter-events';
+import filterData from './filter-data';
+import { loadFromLocal, saveToLocal } from './local-storage-utils';
+import { FilterEvent, FilterState, SaveName } from './types';
 
-class FilterDataService extends FilterEventTarget {
-  private currentState: FilterState = { ...DEFAULT_VALUE };
+class FilterStateService extends AppFilterEventTarget {
+  public savesStorage = new Map<SaveName, FilterState>();
 
-  set brightness(value: number) {
-    this.currentState.brightness = value;
-    this.notify(FilterEvent.UserChange);
+  private currentName: SaveName = '';
+
+  constructor() {
+    super();
+    this.loadAppState();
   }
 
-  get brightness() {
-    return this.currentState.brightness;
+  private async loadAppState(): Promise<void> {
+    const { currentName, currentFilterState, savesStorage } = await loadFromLocal();
+    filterData.setState(currentFilterState);
+    this.currentName = currentName;
+    this.savesStorage = savesStorage;
+
+    this.notify(FilterEvent.Loaded);
   }
 
-  set contrast(value: number) {
-    this.currentState.contrast = value;
-    this.notify(FilterEvent.UserChange);
+  set currentSaveName(value: SaveName) {
+    this.currentName = value;
+    saveToLocal({
+      currentName: this.currentName,
+      currentFilterState: filterData.getState(),
+    });
   }
 
-  get contrast() {
-    return this.currentState.contrast;
+  get currentSaveName() {
+    return this.currentName;
   }
 
-  set saturation(value: number) {
-    this.currentState.saturation = value;
-    this.notify(FilterEvent.UserChange);
+  save(name: SaveName) {
+    this.savesStorage.set(name, { ...filterData.getState() });
+    this.currentName = name;
+    saveToLocal({ currentName: this.currentName, savesStorage: this.savesStorage });
+
+    this.notify(FilterEvent.Saved);
   }
 
-  get saturation() {
-    return this.currentState.saturation;
+  delete(name: SaveName) {
+    this.savesStorage.delete(name);
+    if (name === this.currentName) {
+      this.currentName = '';
+    }
+    saveToLocal({ currentName: this.currentName, savesStorage: this.savesStorage });
+
+    this.notify(FilterEvent.Deleted);
   }
 
-  set isFlipped(value: boolean) {
-    this.currentState.isFlipped = value;
-    this.notify(FilterEvent.UserChange);
-  }
+  restore(name: SaveName) {
+    const state = this.savesStorage.get(name);
+    if (state) {
+      filterData.setState(state);
+      this.currentName = name;
+      saveToLocal({ currentName: this.currentName, currentFilterState: state });
+    }
 
-  get isFlipped() {
-    return this.currentState.isFlipped;
-  }
-
-  setState(value: FilterState): void {
-    this.currentState = { ...value };
-  }
-
-  getState(): FilterState {
-    return this.currentState;
+    this.notify(FilterEvent.Selected);
   }
 }
 
-const filterData = new FilterDataService();
-export default filterData;
+const filterState = new FilterStateService();
+export default filterState;

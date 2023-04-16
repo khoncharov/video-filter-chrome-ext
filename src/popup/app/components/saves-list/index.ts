@@ -1,4 +1,4 @@
-import filterState from '../../services/data';
+import filterState from '../../services/filter-state';
 import InputFormComponent from './input-form';
 import createSaveItem from './save-item';
 

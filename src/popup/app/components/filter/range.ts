@@ -1,5 +1,5 @@
 import { DEFAULT_VALUE } from '../../constants';
-import filterData from '../../services/filter-state';
+import filterData from '../../services/filter-data';
 
 type RangeName = 'brightness' | 'contrast' | 'saturation';
 

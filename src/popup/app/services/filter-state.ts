@@ -22,7 +22,7 @@ class FilterStateService extends AppFilterEventTarget {
     this.notify(FilterEvent.Loaded);
   }
 
-  set currentSaveName(value: SaveName) {
+  setCurrentSaveName(value: SaveName) {
     this.currentName = value;
     saveToLocal({
       currentName: this.currentName,
@@ -30,7 +30,7 @@ class FilterStateService extends AppFilterEventTarget {
     });
   }
 
-  get currentSaveName() {
+  getCurrentSaveName() {
     return this.currentName;
   }
 
@@ -58,9 +58,9 @@ class FilterStateService extends AppFilterEventTarget {
       filterData.setState(state);
       this.currentName = name;
       saveToLocal({ currentName: this.currentName, currentFilterState: state });
-    }
 
-    this.notify(FilterEvent.Selected);
+      this.notify(FilterEvent.Selected);
+    }
   }
 }
 

@@ -26,7 +26,7 @@ describe('Test SaveDataService class', () => {
   filterState.addEventListener(FilterEvent.Selected, onSelectCallback);
 
   test('Should be correctly initialized', () => {
-    expect(filterState.currentSaveName).toEqual('');
+    expect(filterState.getCurrentSaveName()).toEqual('');
     expect(filterState.savesStorage.size).toEqual(0);
     expect(filterData.getState()).toStrictEqual(DEFAULT_VALUE);
   });
@@ -44,7 +44,7 @@ describe('Test SaveDataService class', () => {
     filterData.isFlipped = state2.isFlipped;
     filterState.save(saveName2);
 
-    expect(filterState.currentSaveName).toEqual(saveName2);
+    expect(filterState.getCurrentSaveName()).toEqual(saveName2);
     expect(filterState.savesStorage.size).toEqual(2);
     expect(filterData.getState()).toStrictEqual(state2);
   });
@@ -52,7 +52,7 @@ describe('Test SaveDataService class', () => {
   test('Should return correct values after DELETE', () => {
     filterState.delete(saveName2);
 
-    expect(filterState.currentSaveName).toEqual('');
+    expect(filterState.getCurrentSaveName()).toEqual('');
     expect(filterState.savesStorage.size).toEqual(1);
     expect(filterState.savesStorage.get(saveName1)).toStrictEqual(state1);
     expect(filterData.getState()).toStrictEqual(state2);
@@ -67,7 +67,7 @@ describe('Test SaveDataService class', () => {
 
     filterState.restore(saveName1);
 
-    expect(filterState.currentSaveName).toEqual(saveName1);
+    expect(filterState.getCurrentSaveName()).toEqual(saveName1);
     expect(filterState.savesStorage.size).toEqual(2);
     expect(filterData.getState()).toStrictEqual(state1);
   });

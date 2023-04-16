@@ -17,7 +17,7 @@ export const saveToLocal = (items: Partial<LSItems>): void => {
 
   const { currentName, currentFilterState, savesStorage } = items;
 
-  if (currentName) {
+  if (typeof currentName === 'string') {
     save({ currentName });
   }
   if (currentFilterState) {

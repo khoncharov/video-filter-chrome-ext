@@ -39,7 +39,7 @@ export default class RootComponent {
     });
 
     filterData.addEventListener(FilterEvent.UserChange, () => {
-      filterState.currentSaveName = '';
+      filterState.setCurrentSaveName('');
       this.savesListComp.clearSelected();
       this.updateSaveNameCaption();
       this.applyContextScript();
@@ -75,7 +75,8 @@ export default class RootComponent {
   }
 
   updateSaveNameCaption(): void {
-    const currentName = filterState.currentSaveName ? ` - ${filterState.currentSaveName}` : '';
-    this.saveNameCaption.textContent = currentName;
+    this.saveNameCaption.textContent = filterState.getCurrentSaveName()
+      ? ` - ${filterState.getCurrentSaveName()}`
+      : '';
   }
 }

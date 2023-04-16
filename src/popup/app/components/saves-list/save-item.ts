@@ -1,17 +1,18 @@
 /* eslint-disable no-param-reassign */
-import SaveDataService from '../../services/data';
+import filterState from '../../services/filter-state';
 
-export default function createSaveItem(name: string, data: SaveDataService): HTMLElement {
+export default function createSaveItem(name: string): HTMLElement {
   const item = document.createElement('li');
   item.className = 'save__item';
+  item.dataset.name = name;
 
-  item.innerHTML = `      
+  item.innerHTML = `
     <label class="save__label">
       <input class="input-radio" type="radio" name="loaded-item"/>
       <span class="radio">
         <span class="radio-mark"></span>
       </span>
-      <span class="save__caption" id="save-caption"></span>
+      <span class="save__caption"></span>
     </label>
     <button class="btn-delete" type="button" aria-label="Delete save: ${name}" tabindex="5">
       <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
@@ -22,26 +23,27 @@ export default function createSaveItem(name: string, data: SaveDataService): HTM
       </svg>
     </button>`;
 
-  (item.querySelector('span#save-caption') as HTMLSpanElement).textContent = name;
+  (item.querySelector('span.save__caption') as HTMLSpanElement).textContent = name;
 
   const radio = item.querySelector('input') as HTMLInputElement;
-  radio.checked = data.currentSaveName === name;
+  radio.checked = filterState.getCurrentSaveName() === name;
 
-  const focusinHandler = () => {
-    item.scrollIntoView({ behavior: 'smooth' });
+  const focusHandler = () => {
+    item.scrollIntoView({ behavior: 'smooth', block: 'center' });
   };
-  radio.addEventListener('focus', focusinHandler);
+  radio.addEventListener('focus', focusHandler);
 
   const selectItemHandler = () => {
-    data.restoreState(name);
+    filterState.restore(name);
   };
   item.querySelector('input')?.addEventListener('click', selectItemHandler);
 
   const deleteBtnHandler = () => {
-    data.deleteSavedState(name);
+    filterState.delete(name);
     item.removeEventListener('click', selectItemHandler);
-    item.removeEventListener('focus', focusinHandler);
+    item.removeEventListener('focus', focusHandler);
     item.removeEventListener('click', deleteBtnHandler);
+    item.remove();
   };
   item.querySelector('button')?.addEventListener('click', deleteBtnHandler);
 

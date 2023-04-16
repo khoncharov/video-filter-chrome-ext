@@ -1,12 +1,12 @@
 import { MAX_SAVE_NAME_LENGTH } from '../../constants';
-import SaveDataService from '../../services/data';
+import filterState from '../../services/filter-state';
 
 export default class InputFormComponent {
   private nameInput = document.querySelector('input#input-save-name') as HTMLInputElement;
 
   private addBtn = document.querySelector('button#btn-add-name') as HTMLButtonElement;
 
-  constructor(data: SaveDataService) {
+  constructor() {
     this.nameInput.addEventListener('input', () => {
       const value = this.nameInput.value.slice(0, MAX_SAVE_NAME_LENGTH);
       this.nameInput.value = value;
@@ -21,7 +21,7 @@ export default class InputFormComponent {
 
     this.addBtn.addEventListener('click', () => {
       const saveName = this.nameInput.value.trim();
-      data.saveState(saveName);
+      filterState.save(saveName);
       this.nameInput.value = '';
 
       this.update();

@@ -1,96 +1,83 @@
 import FilterComponent from './components/filter';
-import SaveStateComponent from './components/save-state';
-import SaveDataService from './services/data';
 import { changeFilterHandler, showRectHandler } from './context-utils';
 import { DEFAULT_VALUE } from './constants';
-import { DataEvent } from './services/types';
+import { FilterEvent } from './services/types';
+import filterData from './services/filter-data';
+import filterState from './services/filter-state';
+import SavesListComponent from './components/saves-list';
 
 export default class RootComponent {
   private showRectBtn = document.querySelector('button#show-rect-btn') as HTMLButtonElement;
-
-  private defaultBtn = document.querySelector('button#default-btn') as HTMLButtonElement;
 
   private applyBtn = document.querySelector('button#apply-btn') as HTMLButtonElement;
 
   private saveNameCaption = document.querySelector('span#save-name-caption') as HTMLSpanElement;
 
-  private isTracking: boolean = false;
-
-  private data = new SaveDataService();
+  private isFilterApplied: boolean = false;
 
   private filterComp: FilterComponent;
 
-  private saveComp: SaveStateComponent;
+  private savesListComp: SavesListComponent;
 
   constructor() {
-    this.filterComp = new FilterComponent(this.data);
-
-    this.saveComp = new SaveStateComponent(this.data);
+    this.filterComp = new FilterComponent();
+    this.savesListComp = new SavesListComponent();
   }
 
   init(): void {
     this.showRectBtn.addEventListener('click', showRectHandler);
 
-    this.defaultBtn.addEventListener('click', () => {
-      this.isTracking = false;
-      this.changeApplyBtn(this.isTracking);
-      changeFilterHandler(DEFAULT_VALUE);
-    });
-
     this.applyBtn.addEventListener('click', () => {
-      this.isTracking = true;
-      this.changeApplyBtn(this.isTracking);
-      changeFilterHandler(this.data.currentFilterState);
+      if (this.isFilterApplied) {
+        this.isFilterApplied = false;
+        this.applyBtn.innerText = 'apply';
+        changeFilterHandler(DEFAULT_VALUE);
+      } else {
+        this.isFilterApplied = true;
+        this.applyBtn.innerText = 'cancel';
+        changeFilterHandler(filterData.getState());
+      }
     });
 
-    this.data.addEventListener(DataEvent.UserChangeFilter, () => {
-      this.saveComp.list.clearSelected();
+    filterData.addEventListener(FilterEvent.UserChange, () => {
+      filterState.setCurrentSaveName('');
+      this.savesListComp.clearSelected();
       this.updateSaveNameCaption();
       this.applyContextScript();
     });
 
-    this.data.addEventListener(DataEvent.Loaded, () => {
+    filterState.addEventListener(FilterEvent.Loaded, () => {
       this.filterComp.updateView();
       this.updateSaveNameCaption();
-      this.saveComp.list.update();
+      this.savesListComp.redraw();
     });
 
-    this.data.addEventListener(DataEvent.Selected, () => {
+    filterState.addEventListener(FilterEvent.Selected, () => {
       this.filterComp.updateView();
       this.updateSaveNameCaption();
       this.applyContextScript();
     });
 
-    this.data.addEventListener(DataEvent.Saved, () => {
+    filterState.addEventListener(FilterEvent.Saved, () => {
       this.updateSaveNameCaption();
-      this.saveComp.list.update();
+      this.savesListComp.redraw();
       this.applyContextScript();
     });
 
-    this.data.addEventListener(DataEvent.Deleted, () => {
+    filterState.addEventListener(FilterEvent.Deleted, () => {
       this.updateSaveNameCaption();
-      this.saveComp.list.update();
     });
   }
 
   applyContextScript(): void {
-    if (this.isTracking) {
-      changeFilterHandler(this.data.currentFilterState);
-    }
-  }
-
-  changeApplyBtn(isTracking: boolean): void {
-    if (isTracking) {
-      this.applyBtn.innerText = 'track';
-      this.applyBtn.classList.add('btn-tracking-mode');
-    } else {
-      this.applyBtn.innerText = 'apply';
-      this.applyBtn.classList.remove('btn-tracking-mode');
+    if (this.isFilterApplied) {
+      changeFilterHandler(filterData.getState());
     }
   }
 
   updateSaveNameCaption(): void {
-    const currentName = this.data.currentSaveName ? ` - ${this.data.currentSaveName}` : '';
-    this.saveNameCaption.textContent = currentName;
+    this.saveNameCaption.textContent = filterState.getCurrentSaveName()
+      ? ` - ${filterState.getCurrentSaveName()}`
+      : '';
   }
 }

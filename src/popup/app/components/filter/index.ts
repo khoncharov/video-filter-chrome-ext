@@ -1,6 +1,5 @@
 import FlipVideoComponent from './flip';
 import RangeComponent from './range';
-import SaveDataService from '../../services/data';
 
 export default class FilterComponent {
   private rangeBrightness: RangeComponent;
@@ -11,15 +10,11 @@ export default class FilterComponent {
 
   private flipVideo: FlipVideoComponent;
 
-  private data: SaveDataService;
-
-  constructor(data: SaveDataService) {
-    this.data = data;
-
-    this.rangeBrightness = new RangeComponent('brightness', this.data);
-    this.rangeContrast = new RangeComponent('contrast', this.data);
-    this.rangeSaturation = new RangeComponent('saturation', this.data);
-    this.flipVideo = new FlipVideoComponent(this.data);
+  constructor() {
+    this.rangeBrightness = new RangeComponent('brightness');
+    this.rangeContrast = new RangeComponent('contrast');
+    this.rangeSaturation = new RangeComponent('saturation');
+    this.flipVideo = new FlipVideoComponent();
 
     const btnReset = document.querySelector('button#btn-reset') as HTMLButtonElement;
     btnReset.addEventListener('click', () => {

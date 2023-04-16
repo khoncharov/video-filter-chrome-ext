@@ -24,9 +24,17 @@ describe('Functions to interact with extension local storage', () => {
 
   test('Should save & load value', async () => {
     saveToLocal({ currentName: 'John Smith' });
-    const data = await loadFromLocal();
-    expect(data).toStrictEqual({
+    const data1 = await loadFromLocal();
+    expect(data1).toStrictEqual({
       currentName: 'John Smith',
+      currentFilterState: { ...DEFAULT_VALUE },
+      savesStorage: new Map<SaveName, FilterState>([]),
+    });
+
+    saveToLocal({ currentName: '' });
+    const data2 = await loadFromLocal();
+    expect(data2).toStrictEqual({
+      currentName: '',
       currentFilterState: { ...DEFAULT_VALUE },
       savesStorage: new Map<SaveName, FilterState>([]),
     });

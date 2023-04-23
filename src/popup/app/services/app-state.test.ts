@@ -27,7 +27,7 @@ describe('Test SaveDataService class', () => {
 
   test('Should be correctly initialized', () => {
     expect(appState.getCurrentSaveName()).toEqual('');
-    expect(appState.savesStorage.size).toEqual(0);
+    expect(appState.savesMap.size).toEqual(0);
     expect(filterData.getState()).toStrictEqual(DEFAULT_FILTER);
   });
 
@@ -45,7 +45,7 @@ describe('Test SaveDataService class', () => {
     appState.save(saveName2);
 
     expect(appState.getCurrentSaveName()).toEqual(saveName2);
-    expect(appState.savesStorage.size).toEqual(2);
+    expect(appState.savesMap.size).toEqual(2);
     expect(filterData.getState()).toStrictEqual(state2);
   });
 
@@ -53,8 +53,8 @@ describe('Test SaveDataService class', () => {
     appState.delete(saveName2);
 
     expect(appState.getCurrentSaveName()).toEqual('');
-    expect(appState.savesStorage.size).toEqual(1);
-    expect(appState.savesStorage.get(saveName1)).toStrictEqual(state1);
+    expect(appState.savesMap.size).toEqual(1);
+    expect(appState.savesMap.get(saveName1)).toStrictEqual(state1);
     expect(filterData.getState()).toStrictEqual(state2);
   });
 
@@ -68,7 +68,7 @@ describe('Test SaveDataService class', () => {
     appState.restore(saveName1);
 
     expect(appState.getCurrentSaveName()).toEqual(saveName1);
-    expect(appState.savesStorage.size).toEqual(2);
+    expect(appState.savesMap.size).toEqual(2);
     expect(filterData.getState()).toStrictEqual(state1);
   });
 

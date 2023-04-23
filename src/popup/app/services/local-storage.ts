@@ -5,7 +5,7 @@ import { FilterState, SaveName } from './types';
 type LSItems = {
   currentName: string;
   currentFilterState: FilterState;
-  savesStorage: Map<SaveName, FilterState>;
+  savesMap: Map<SaveName, FilterState>;
 };
 
 type LSNames = keyof LSItems;
@@ -15,7 +15,7 @@ export const saveToLocal = (items: Partial<LSItems>): void => {
     throw new Error('At least one key should be provided');
   }
 
-  const { currentName, currentFilterState, savesStorage } = items;
+  const { currentName, currentFilterState, savesMap } = items;
 
   if (typeof currentName === 'string') {
     save({ currentName });
@@ -23,18 +23,18 @@ export const saveToLocal = (items: Partial<LSItems>): void => {
   if (currentFilterState) {
     save({ currentFilterState });
   }
-  if (savesStorage) {
-    save({ savesStorage: Array.from(savesStorage) });
+  if (savesMap) {
+    save({ savesMap: Array.from(savesMap) });
   }
 };
 
 export const loadFromLocal = async (): Promise<LSItems> => {
-  const itemsNames: LSNames[] = ['currentName', 'currentFilterState', 'savesStorage'];
+  const itemsNames: LSNames[] = ['currentName', 'currentFilterState', 'savesMap'];
   const data = await load(itemsNames);
   const result: LSItems = {
     currentName: data.currentName ?? '',
     currentFilterState: data.currentFilterState ?? { ...DEFAULT_FILTER },
-    savesStorage: new Map<SaveName, FilterState>(data.savesStorage ?? []),
+    savesMap: new Map<SaveName, FilterState>(data.savesMap ?? []),
   };
   return result;
 };

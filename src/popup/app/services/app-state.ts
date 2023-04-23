@@ -4,7 +4,7 @@ import { loadFromLocal, saveToLocal } from './local-storage';
 import { FilterEvent, FilterState, SaveName } from './types';
 
 class AppStateService extends AppEventTarget {
-  public savesStorage = new Map<SaveName, FilterState>();
+  public savesMap = new Map<SaveName, FilterState>();
 
   private currentName: SaveName = '';
 
@@ -16,10 +16,10 @@ class AppStateService extends AppEventTarget {
   }
 
   private async loadAppState(): Promise<void> {
-    const { currentName, currentFilterState, savesStorage } = await loadFromLocal();
+    const { currentName, currentFilterState, savesMap } = await loadFromLocal();
     filterData.setState(currentFilterState);
     this.currentName = currentName;
-    this.savesStorage = savesStorage;
+    this.savesMap = savesMap;
 
     this.notify(FilterEvent.Loaded);
   }
@@ -37,25 +37,25 @@ class AppStateService extends AppEventTarget {
   }
 
   save(name: SaveName) {
-    this.savesStorage.set(name, { ...filterData.getState() });
+    this.savesMap.set(name, { ...filterData.getState() });
     this.currentName = name;
-    saveToLocal({ currentName: this.currentName, savesStorage: this.savesStorage });
+    saveToLocal({ currentName: this.currentName, savesMap: this.savesMap });
 
     this.notify(FilterEvent.Saved);
   }
 
   delete(name: SaveName) {
-    this.savesStorage.delete(name);
+    this.savesMap.delete(name);
     if (name === this.currentName) {
       this.currentName = '';
     }
-    saveToLocal({ currentName: this.currentName, savesStorage: this.savesStorage });
+    saveToLocal({ currentName: this.currentName, savesMap: this.savesMap });
 
     this.notify(FilterEvent.Deleted);
   }
 
   restore(name: SaveName) {
-    const state = this.savesStorage.get(name);
+    const state = this.savesMap.get(name);
     if (state) {
       filterData.setState(state);
       this.currentName = name;

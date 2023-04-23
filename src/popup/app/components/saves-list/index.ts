@@ -14,7 +14,7 @@ export default class SavesListComponent {
 
   redraw(): void {
     this.list.innerHTML = '';
-    appState.savesStorage.forEach((value, name) => {
+    appState.savesMap.forEach((value, name) => {
       const item = createSaveItem(name);
       this.list.appendChild(item);
 

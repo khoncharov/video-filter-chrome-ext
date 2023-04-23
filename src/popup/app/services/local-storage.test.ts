@@ -12,7 +12,7 @@ describe('Functions to interact with extension local storage', () => {
     expect(data).toStrictEqual({
       currentName: '',
       currentFilterState: { ...DEFAULT_FILTER },
-      savesStorage: new Map<SaveName, FilterState>([]),
+      savesMap: new Map<SaveName, FilterState>([]),
     });
   });
 
@@ -28,7 +28,7 @@ describe('Functions to interact with extension local storage', () => {
     expect(data1).toStrictEqual({
       currentName: 'John Smith',
       currentFilterState: { ...DEFAULT_FILTER },
-      savesStorage: new Map<SaveName, FilterState>([]),
+      savesMap: new Map<SaveName, FilterState>([]),
     });
 
     saveToLocal({ currentName: '' });
@@ -36,7 +36,7 @@ describe('Functions to interact with extension local storage', () => {
     expect(data2).toStrictEqual({
       currentName: '',
       currentFilterState: { ...DEFAULT_FILTER },
-      savesStorage: new Map<SaveName, FilterState>([]),
+      savesMap: new Map<SaveName, FilterState>([]),
     });
   });
 
@@ -45,16 +45,16 @@ describe('Functions to interact with extension local storage', () => {
     const currentFilterState = { brightness: 1, contrast: 2, saturation: 3, isFlipped: true };
     const currentFilterState1 = { brightness: 4, contrast: 5, saturation: 6, isFlipped: false };
     const currentFilterState2 = { brightness: 7, contrast: 8, saturation: 9, isFlipped: true };
-    const savesStorage = new Map<string, FilterState>([
+    const savesMap = new Map<string, FilterState>([
       ['name1', currentFilterState1],
       ['name2', currentFilterState2],
     ]);
-    saveToLocal({ currentName, currentFilterState, savesStorage });
+    saveToLocal({ currentName, currentFilterState, savesMap });
     const data = await loadFromLocal();
     expect(data).toStrictEqual({
       currentName,
       currentFilterState,
-      savesStorage,
+      savesMap,
     });
   });
 });

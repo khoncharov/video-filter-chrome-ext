@@ -1,4 +1,4 @@
-import { DEFAULT_VALUE } from '../constants';
+import { DEFAULT_FILTER } from '../constants';
 import filterData from '../services/filter-data';
 import appState from '../services/app-state';
 import { showRectHandler } from '../context/show-rect';
@@ -16,7 +16,7 @@ export default class PageControlsComponent {
       if (appState.filterApplied) {
         appState.filterApplied = false;
         this.applyBtn.innerText = 'apply';
-        applyFilterToContext(DEFAULT_VALUE);
+        applyFilterToContext(DEFAULT_FILTER);
 
         const queryOptions = { active: true, lastFocusedWindow: true };
         chrome.tabs.query(queryOptions).then((res) => {

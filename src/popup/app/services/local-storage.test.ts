@@ -1,6 +1,6 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable no-restricted-syntax */
-import { DEFAULT_VALUE } from '../constants';
+import { DEFAULT_FILTER } from '../constants';
 import { loadFromLocal, saveToLocal } from './local-storage';
 import { FilterState, SaveName } from './types';
 
@@ -11,7 +11,7 @@ describe('Functions to interact with extension local storage', () => {
     const data = await loadFromLocal();
     expect(data).toStrictEqual({
       currentName: '',
-      currentFilterState: { ...DEFAULT_VALUE },
+      currentFilterState: { ...DEFAULT_FILTER },
       savesStorage: new Map<SaveName, FilterState>([]),
     });
   });
@@ -27,7 +27,7 @@ describe('Functions to interact with extension local storage', () => {
     const data1 = await loadFromLocal();
     expect(data1).toStrictEqual({
       currentName: 'John Smith',
-      currentFilterState: { ...DEFAULT_VALUE },
+      currentFilterState: { ...DEFAULT_FILTER },
       savesStorage: new Map<SaveName, FilterState>([]),
     });
 
@@ -35,7 +35,7 @@ describe('Functions to interact with extension local storage', () => {
     const data2 = await loadFromLocal();
     expect(data2).toStrictEqual({
       currentName: '',
-      currentFilterState: { ...DEFAULT_VALUE },
+      currentFilterState: { ...DEFAULT_FILTER },
       savesStorage: new Map<SaveName, FilterState>([]),
     });
   });

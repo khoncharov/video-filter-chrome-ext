@@ -1,4 +1,4 @@
-import { DEFAULT_VALUE } from '../../constants';
+import { DEFAULT_FILTER } from '../../constants';
 import filterData from '../../services/filter-data';
 
 type RangeName = 'brightness' | 'contrast' | 'saturation';
@@ -36,7 +36,7 @@ export default class RangeComponent {
   }
 
   reset() {
-    filterData[`${this.rangeName}`] = DEFAULT_VALUE[`${this.rangeName}`];
+    filterData[`${this.rangeName}`] = DEFAULT_FILTER[`${this.rangeName}`];
     this.update();
   }
 }

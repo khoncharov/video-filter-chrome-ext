@@ -1,4 +1,4 @@
-import { DEFAULT_VALUE } from '../constants';
+import { DEFAULT_FILTER } from '../constants';
 import { load, save } from './chrome-utils';
 import { FilterState, SaveName } from './types';
 
@@ -33,7 +33,7 @@ export const loadFromLocal = async (): Promise<LSItems> => {
   const data = await load(itemsNames);
   const result: LSItems = {
     currentName: data.currentName ?? '',
-    currentFilterState: data.currentFilterState ?? { ...DEFAULT_VALUE },
+    currentFilterState: data.currentFilterState ?? { ...DEFAULT_FILTER },
     savesStorage: new Map<SaveName, FilterState>(data.savesStorage ?? []),
   };
   return result;

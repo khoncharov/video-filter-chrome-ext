@@ -1,9 +1,9 @@
-import { DEFAULT_VALUE } from '../constants';
+import { DEFAULT_FILTER } from '../constants';
 import AppEventTarget from './app-events';
 import { FilterEvent, FilterState } from './types';
 
 class FilterDataService extends AppEventTarget {
-  private currentState: FilterState = { ...DEFAULT_VALUE };
+  private currentState: FilterState = { ...DEFAULT_FILTER };
 
   set brightness(value: number) {
     this.currentState.brightness = value;

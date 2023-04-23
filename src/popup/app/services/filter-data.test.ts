@@ -1,6 +1,6 @@
 /* eslint-disable object-curly-newline */
 import { FilterEvent } from './types';
-import { DEFAULT_VALUE } from '../constants';
+import { DEFAULT_FILTER } from '../constants';
 import filterData from './filter-data';
 
 describe('Test FilterDataService class', () => {
@@ -10,10 +10,10 @@ describe('Test FilterDataService class', () => {
   test('Should return correct default values', () => {
     const { brightness, contrast, saturation, isFlipped } = filterData;
 
-    expect(brightness).toEqual(DEFAULT_VALUE.brightness);
-    expect(contrast).toEqual(DEFAULT_VALUE.contrast);
-    expect(saturation).toEqual(DEFAULT_VALUE.saturation);
-    expect(isFlipped).toEqual(DEFAULT_VALUE.isFlipped);
+    expect(brightness).toEqual(DEFAULT_FILTER.brightness);
+    expect(contrast).toEqual(DEFAULT_FILTER.contrast);
+    expect(saturation).toEqual(DEFAULT_FILTER.saturation);
+    expect(isFlipped).toEqual(DEFAULT_FILTER.isFlipped);
   });
 
   test('Should return correct values', () => {

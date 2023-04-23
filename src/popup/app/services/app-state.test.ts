@@ -1,6 +1,6 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable no-restricted-syntax */
-import { DEFAULT_VALUE } from '../constants';
+import { DEFAULT_FILTER } from '../constants';
 import filterData from './filter-data';
 import appState from './app-state';
 import { FilterEvent } from './types';
@@ -28,7 +28,7 @@ describe('Test SaveDataService class', () => {
   test('Should be correctly initialized', () => {
     expect(appState.getCurrentSaveName()).toEqual('');
     expect(appState.savesStorage.size).toEqual(0);
-    expect(filterData.getState()).toStrictEqual(DEFAULT_VALUE);
+    expect(filterData.getState()).toStrictEqual(DEFAULT_FILTER);
   });
 
   test('Should return correct values after SAVE', () => {

@@ -2,7 +2,7 @@ import FilterComponent from './components/filter';
 import { DEFAULT_VALUE } from './constants';
 import { FilterEvent } from './services/types';
 import filterData from './services/filter-data';
-import filterState from './services/filter-state';
+import appState from './services/app-state';
 import SavesListComponent from './components/saves-list';
 import { showRectHandler } from './context/show-rect';
 import { applyFilterToContext } from './context/filter-to-context';
@@ -41,31 +41,31 @@ export default class RootComponent {
     });
 
     filterData.addEventListener(FilterEvent.UserChange, () => {
-      filterState.setCurrentSaveName('');
+      appState.setCurrentSaveName('');
       this.savesListComp.clearSelected();
       this.updateSaveNameCaption();
       this.applyContextScript();
     });
 
-    filterState.addEventListener(FilterEvent.Loaded, () => {
+    appState.addEventListener(FilterEvent.Loaded, () => {
       this.filterComp.updateView();
       this.updateSaveNameCaption();
       this.savesListComp.redraw();
     });
 
-    filterState.addEventListener(FilterEvent.Selected, () => {
+    appState.addEventListener(FilterEvent.Selected, () => {
       this.filterComp.updateView();
       this.updateSaveNameCaption();
       this.applyContextScript();
     });
 
-    filterState.addEventListener(FilterEvent.Saved, () => {
+    appState.addEventListener(FilterEvent.Saved, () => {
       this.updateSaveNameCaption();
       this.savesListComp.redraw();
       this.applyContextScript();
     });
 
-    filterState.addEventListener(FilterEvent.Deleted, () => {
+    appState.addEventListener(FilterEvent.Deleted, () => {
       this.updateSaveNameCaption();
     });
   }
@@ -77,8 +77,8 @@ export default class RootComponent {
   }
 
   updateSaveNameCaption(): void {
-    this.saveNameCaption.textContent = filterState.getCurrentSaveName()
-      ? ` - ${filterState.getCurrentSaveName()}`
+    this.saveNameCaption.textContent = appState.getCurrentSaveName()
+      ? ` - ${appState.getCurrentSaveName()}`
       : '';
   }
 }

@@ -1,7 +1,7 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable no-restricted-syntax */
 import { DEFAULT_VALUE } from '../constants';
-import { loadFromLocal, saveToLocal } from './local-storage-utils';
+import { loadFromLocal, saveToLocal } from './local-storage';
 import { FilterState, SaveName } from './types';
 
 jest.mock('./chrome-utils');

@@ -1,9 +1,9 @@
-import AppFilterEventTarget from './filter-events';
+import AppEventTarget from './app-events';
 import filterData from './filter-data';
-import { loadFromLocal, saveToLocal } from './local-storage-utils';
+import { loadFromLocal, saveToLocal } from './local-storage';
 import { FilterEvent, FilterState, SaveName } from './types';
 
-class FilterStateService extends AppFilterEventTarget {
+class AppStateService extends AppEventTarget {
   public savesStorage = new Map<SaveName, FilterState>();
 
   private currentName: SaveName = '';
@@ -64,5 +64,5 @@ class FilterStateService extends AppFilterEventTarget {
   }
 }
 
-const filterState = new FilterStateService();
-export default filterState;
+const appState = new AppStateService();
+export default appState;

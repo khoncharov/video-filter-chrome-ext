@@ -1,10 +1,11 @@
 import FilterComponent from './components/filter';
-import { changeFilterHandler, showRectHandler } from './context-utils';
 import { DEFAULT_VALUE } from './constants';
 import { FilterEvent } from './services/types';
 import filterData from './services/filter-data';
 import filterState from './services/filter-state';
 import SavesListComponent from './components/saves-list';
+import { showRectHandler } from './context/show-rect';
+import { applyFilterToContext } from './context/filter-to-context';
 
 export default class RootComponent {
   private showRectBtn = document.querySelector('button#show-rect-btn') as HTMLButtonElement;
@@ -31,11 +32,11 @@ export default class RootComponent {
       if (this.isFilterApplied) {
         this.isFilterApplied = false;
         this.applyBtn.innerText = 'apply';
-        changeFilterHandler(DEFAULT_VALUE);
+        applyFilterToContext(DEFAULT_VALUE);
       } else {
         this.isFilterApplied = true;
         this.applyBtn.innerText = 'cancel';
-        changeFilterHandler(filterData.getState());
+        applyFilterToContext(filterData.getState());
       }
     });
 
@@ -71,7 +72,7 @@ export default class RootComponent {
 
   applyContextScript(): void {
     if (this.isFilterApplied) {
-      changeFilterHandler(filterData.getState());
+      applyFilterToContext(filterData.getState());
     }
   }
 

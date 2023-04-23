@@ -8,6 +8,8 @@ class AppStateService extends AppEventTarget {
 
   private currentName: SaveName = '';
 
+  public filterApplied = false;
+
   constructor() {
     super();
     this.loadAppState();

@@ -23,30 +23,30 @@ export default class RootComponent {
     filterData.addEventListener(FilterEvent.UserChange, () => {
       appState.setCurrentSaveName('');
       this.savesListComp.clearSelected();
-      this.filterComp.updateSaveNameCaption();
+      this.filterComp.updateCaption();
       this.applyContextScript();
     });
 
     appState.addEventListener(FilterEvent.Loaded, () => {
       this.filterComp.updateView();
-      this.filterComp.updateSaveNameCaption();
+      this.filterComp.updateCaption();
       this.savesListComp.redraw();
     });
 
     appState.addEventListener(FilterEvent.Selected, () => {
       this.filterComp.updateView();
-      this.filterComp.updateSaveNameCaption();
+      this.filterComp.updateCaption();
       this.applyContextScript();
     });
 
     appState.addEventListener(FilterEvent.Saved, () => {
-      this.filterComp.updateSaveNameCaption();
+      this.filterComp.updateCaption();
       this.savesListComp.redraw();
       this.applyContextScript();
     });
 
     appState.addEventListener(FilterEvent.Deleted, () => {
-      this.filterComp.updateSaveNameCaption();
+      this.filterComp.updateCaption();
     });
   }
 

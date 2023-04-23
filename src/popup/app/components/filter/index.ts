@@ -35,7 +35,7 @@ export default class FilterComponent {
     this.flipVideo.update();
   }
 
-  updateSaveNameCaption(): void {
+  updateCaption(): void {
     this.saveNameCaption.textContent = appState.getCurrentSaveName()
       ? ` - ${appState.getCurrentSaveName()}`
       : '';

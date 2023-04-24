@@ -26,7 +26,3 @@ export interface SessionDescriptor {
   saveName: SaveName;
   filterState: FilterState;
 }
-
-export interface SessionStorageItem {
-  [key: string]: SessionDescriptor;
-}

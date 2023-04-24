@@ -1,24 +1,40 @@
+/* eslint-disable object-curly-newline */
 /* eslint-disable no-restricted-syntax */
-import { FilterState, SaveName } from '../types';
+import { FilterState, SaveName, SessionDescriptor } from '../types';
 
-const db = new Map<string, string>();
+const dbLocal = new Map<string, string>();
+const dbSession = new Map<string, string>();
 
-const load = async (args: string[]) => {
+const getLocal = async (args: string[]) => {
   const result: [string, string][] = [];
   args.forEach((arg) => {
-    if (db.has(arg)) {
-      result.push([arg, JSON.parse(db.get(arg) as string)]);
+    if (dbLocal.has(arg)) {
+      result.push([arg, JSON.parse(dbLocal.get(arg) as string)]);
     }
   });
   return Object.fromEntries(result);
 };
 
-const save = async (items: {
-  [key: string]: string | FilterState | Array<[SaveName, FilterState]>;
-}) => {
+const setLocal = async (items: { [key: string]: Array<[SaveName, FilterState]> }) => {
   for (const entry of Object.entries(items)) {
-    db.set(entry[0], JSON.stringify(entry[1]));
+    dbLocal.set(entry[0], JSON.stringify(entry[1]));
   }
 };
 
-export { load, save };
+const getSession = async (args: string[]) => {
+  const result: [string, string][] = [];
+  args.forEach((arg) => {
+    if (dbSession.has(arg)) {
+      result.push([arg, JSON.parse(dbSession.get(arg) as string)]);
+    }
+  });
+  return Object.fromEntries(result);
+};
+
+const setSession = async (items: { [key: string]: SessionDescriptor }) => {
+  for (const entry of Object.entries(items)) {
+    dbSession.set(entry[0], JSON.stringify(entry[1]));
+  }
+};
+
+export { getLocal, setLocal, getSession, setSession };

@@ -28,9 +28,10 @@ export default class RootComponent {
     });
 
     appState.addEventListener(FilterEvent.Loaded, () => {
+      // this.pageControlsComp.updateApplyBtn();
       this.filterComp.updateView();
       this.filterComp.updateCaption();
-      this.savesListComp.redraw();
+      this.savesListComp.update();
     });
 
     appState.addEventListener(FilterEvent.Selected, () => {
@@ -41,7 +42,7 @@ export default class RootComponent {
 
     appState.addEventListener(FilterEvent.Saved, () => {
       this.filterComp.updateCaption();
-      this.savesListComp.redraw();
+      this.savesListComp.update();
       this.applyContextScript();
     });
 

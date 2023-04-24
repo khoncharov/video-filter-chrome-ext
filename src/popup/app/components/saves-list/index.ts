@@ -12,7 +12,7 @@ export default class SavesListComponent {
     this.inputForm = new InputFormComponent();
   }
 
-  redraw(): void {
+  update(): void {
     this.list.innerHTML = '';
     appState.savesMap.forEach((value, name) => {
       const item = createSaveItem(name);

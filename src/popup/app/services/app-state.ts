@@ -1,6 +1,8 @@
+import { getActiveTabId } from '../context/tab-utils';
 import AppEventTarget, { FilterEvent } from './app-events';
 import filterData from './filter-data';
-import { loadFromLocal, saveToLocal } from './local-storage';
+import { loadFromLocal, saveToLocal } from './storage-local';
+import { loadFromSession, saveToSession } from './storage-session';
 import { FilterSaves, FilterState, SaveName } from './types';
 
 class AppStateService extends AppEventTarget {
@@ -8,7 +10,7 @@ class AppStateService extends AppEventTarget {
 
   private currentName: SaveName = '';
 
-  public filterApplied = false;
+  public filterApplied: boolean = false;
 
   private tabId: number | null = null;
 
@@ -18,20 +20,36 @@ class AppStateService extends AppEventTarget {
   }
 
   private async loadAppState(): Promise<void> {
-    const { currentName, currentFilterState, savesMap } = await loadFromLocal();
-    filterData.setState(currentFilterState);
-    this.currentName = currentName;
-    this.savesMap = savesMap;
+    const saves = await loadFromLocal();
+    if (saves) {
+      this.savesMap = saves;
+    }
+
+    this.tabId = await getActiveTabId();
+
+    if (this.tabId !== null) {
+      const session = await loadFromSession(this.tabId);
+
+      if (session) {
+        this.currentName = session.saveName;
+        this.filterApplied = session.filterApplied;
+        filterData.setState(session.filterState);
+      }
+    }
 
     this.notify(FilterEvent.Loaded);
   }
 
   setCurrentSaveName(value: SaveName) {
     this.currentName = value;
-    saveToLocal({
-      currentName: this.currentName,
-      currentFilterState: filterData.getState(),
-    });
+
+    if (this.tabId) {
+      saveToSession(this.tabId, {
+        saveName: this.currentName,
+        filterApplied: this.filterApplied,
+        filterState: filterData.getState(),
+      });
+    }
   }
 
   getCurrentSaveName() {
@@ -41,7 +59,15 @@ class AppStateService extends AppEventTarget {
   save(name: SaveName) {
     this.savesMap.set(name, { ...filterData.getState() });
     this.currentName = name;
-    saveToLocal({ currentName: this.currentName, savesMap: this.savesMap });
+
+    if (this.tabId) {
+      saveToSession(this.tabId, {
+        saveName: this.currentName,
+        filterApplied: this.filterApplied,
+        filterState: filterData.getState(),
+      });
+      saveToLocal(this.savesMap);
+    }
 
     this.notify(FilterEvent.Saved);
   }
@@ -51,7 +77,15 @@ class AppStateService extends AppEventTarget {
     if (name === this.currentName) {
       this.currentName = '';
     }
-    saveToLocal({ currentName: this.currentName, savesMap: this.savesMap });
+
+    if (this.tabId) {
+      saveToSession(this.tabId, {
+        saveName: this.currentName,
+        filterApplied: this.filterApplied,
+        filterState: filterData.getState(),
+      });
+      saveToLocal(this.savesMap);
+    }
 
     this.notify(FilterEvent.Deleted);
   }
@@ -61,7 +95,14 @@ class AppStateService extends AppEventTarget {
     if (state) {
       filterData.setState(state);
       this.currentName = name;
-      saveToLocal({ currentName: this.currentName, currentFilterState: state });
+
+      if (this.tabId) {
+        saveToSession(this.tabId, {
+          saveName: this.currentName,
+          filterApplied: this.filterApplied,
+          filterState: filterData.getState(),
+        });
+      }
 
       this.notify(FilterEvent.Selected);
     }

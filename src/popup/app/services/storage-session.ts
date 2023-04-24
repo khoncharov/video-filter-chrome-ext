@@ -1,8 +1,5 @@
+import { getSession, setSession } from './chrome-utils';
 import { SessionDescriptor, TabId } from './types';
-
-export const saveToSession = (tabId: TabId, descriptor: SessionDescriptor): void => {
-  chrome.storage.session.set({ [tabId]: descriptor });
-};
 
 type SessionPropName = keyof SessionDescriptor;
 
@@ -18,11 +15,15 @@ const isSessionDescriptor = (item: any): item is SessionDescriptor => {
 };
 
 export const loadFromSession = async (tabId: TabId): Promise<SessionDescriptor | null> => {
-  const data = await chrome.storage.session.get([tabId.toString()]);
+  const data = await getSession([tabId.toString()]);
 
   if (data[tabId] && isSessionDescriptor(data[tabId])) {
     return data[tabId];
   }
 
   return null;
+};
+
+export const saveToSession = (tabId: TabId, descriptor: SessionDescriptor): void => {
+  setSession({ [tabId]: descriptor });
 };

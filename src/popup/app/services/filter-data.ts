@@ -1,6 +1,6 @@
 import { DEFAULT_FILTER } from '../constants';
-import AppEventTarget from './app-events';
-import { FilterEvent, FilterState } from './types';
+import AppEventTarget, { FilterEvent } from './app-events';
+import { FilterState } from './types';
 
 class FilterDataService extends AppEventTarget {
   private currentState: FilterState = { ...DEFAULT_FILTER };

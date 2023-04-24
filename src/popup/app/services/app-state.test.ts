@@ -3,7 +3,7 @@
 import { DEFAULT_FILTER } from '../constants';
 import filterData from './filter-data';
 import appState from './app-state';
-import { FilterEvent } from './types';
+import { FilterEvent } from './app-events';
 
 jest.mock('./chrome-utils');
 

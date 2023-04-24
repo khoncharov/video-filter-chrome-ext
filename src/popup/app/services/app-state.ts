@@ -1,14 +1,16 @@
-import AppEventTarget from './app-events';
+import AppEventTarget, { FilterEvent } from './app-events';
 import filterData from './filter-data';
 import { loadFromLocal, saveToLocal } from './local-storage';
-import { FilterEvent, FilterState, SaveName } from './types';
+import { FilterSaves, FilterState, SaveName } from './types';
 
 class AppStateService extends AppEventTarget {
-  public savesMap = new Map<SaveName, FilterState>();
+  public savesMap: FilterSaves = new Map<SaveName, FilterState>();
 
   private currentName: SaveName = '';
 
   public filterApplied = false;
+
+  private tabId: number | null = null;
 
   constructor() {
     super();

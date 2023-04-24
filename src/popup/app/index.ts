@@ -1,5 +1,5 @@
 import FilterComponent from './components/filter';
-import { FilterEvent } from './services/types';
+import { FilterEvent } from './services/app-events';
 import filterData from './services/filter-data';
 import appState from './services/app-state';
 import SavesListComponent from './components/saves-list';

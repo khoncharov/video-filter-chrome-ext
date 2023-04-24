@@ -1,5 +1,4 @@
-import AppEventTarget from './app-events';
-import { FilterEvent } from './types';
+import AppEventTarget, { FilterEvent } from './app-events';
 
 describe('Test AppEventTarget class', () => {
   const obj = new AppEventTarget();

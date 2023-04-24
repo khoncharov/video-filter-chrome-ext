@@ -1,6 +1,6 @@
 /* eslint-disable object-curly-newline */
-import { FilterEvent } from './types';
 import { DEFAULT_FILTER } from '../constants';
+import { FilterEvent } from './app-events';
 import filterData from './filter-data';
 
 describe('Test FilterDataService class', () => {

@@ -12,7 +12,7 @@ class AppStateService extends AppEventTarget {
 
   public filterApplied: boolean = false;
 
-  private tabId: number | null = null;
+  public tabId: number | null = null;
 
   constructor() {
     super();

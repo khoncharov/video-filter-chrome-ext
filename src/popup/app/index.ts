@@ -20,15 +20,21 @@ export default class RootComponent {
   }
 
   init(): void {
+    const applyContextScript = (): void => {
+      if (appState.filterApplied) {
+        applyFilterToContext(filterData.getState());
+      }
+    };
+
     filterData.addEventListener(FilterEvent.UserChange, () => {
       appState.setCurrentSaveName('');
       this.savesListComp.clearSelected();
       this.filterComp.updateCaption();
-      this.applyContextScript();
+      applyContextScript();
     });
 
     appState.addEventListener(FilterEvent.Loaded, () => {
-      // this.pageControlsComp.updateApplyBtn();
+      this.pageControlsComp.updateApplyBtn();
       this.filterComp.updateView();
       this.filterComp.updateCaption();
       this.savesListComp.update();
@@ -37,24 +43,17 @@ export default class RootComponent {
     appState.addEventListener(FilterEvent.Selected, () => {
       this.filterComp.updateView();
       this.filterComp.updateCaption();
-      this.applyContextScript();
+      applyContextScript();
     });
 
     appState.addEventListener(FilterEvent.Saved, () => {
       this.filterComp.updateCaption();
       this.savesListComp.update();
-      this.applyContextScript();
+      applyContextScript();
     });
 
     appState.addEventListener(FilterEvent.Deleted, () => {
       this.filterComp.updateCaption();
     });
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  applyContextScript(): void {
-    if (appState.filterApplied) {
-      applyFilterToContext(filterData.getState());
-    }
   }
 }

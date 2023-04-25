@@ -23,7 +23,4 @@ Figma [layout draft](https://www.figma.com/file/hmcOOhND0LHUrJdOEFo8cz/Twitch-vi
 
 ## TODO
 
-1. Test UI
-2. Show badge `ON`.
-   Checked: a extension session storage lasts as long as the browser is open.
-   Reload: what to do on tab reload?
+1. Testing

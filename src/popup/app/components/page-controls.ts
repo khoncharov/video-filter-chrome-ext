@@ -27,6 +27,8 @@ export default class PageControlsComponent {
 
         updateTabBadge();
       }
+
+      appState.saveSessionState();
     });
   }
 

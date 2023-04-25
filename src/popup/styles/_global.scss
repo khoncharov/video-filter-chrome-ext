@@ -14,12 +14,21 @@ html {
 }
 
 body {
-  padding-bottom: 0.1rem;
   width: 28rem;
-  background-color: $dark-rose-red;
+  background-color: $white;
   letter-spacing: 0.03rem;
   font-size: 1.5rem;
   color: $carafe;
+}
+
+.main {
+  opacity: 0;
+  background-color: $dark-rose-red;
+  transition: opacity 400ms;
+
+  &-visible {
+    opacity: 1;
+  }
 }
 
 button {

@@ -5,6 +5,7 @@ import appState from './services/app-state';
 import SavesListComponent from './components/saves-list';
 import { applyFilterToContext } from './context/filter-to-context';
 import PageControlsComponent from './components/page-controls';
+import { updateLayout } from './layout';
 
 export default class RootComponent {
   private pageControlsComp: PageControlsComponent;
@@ -14,6 +15,7 @@ export default class RootComponent {
   private savesListComp: SavesListComponent;
 
   constructor() {
+    updateLayout();
     this.pageControlsComp = new PageControlsComponent();
     this.filterComp = new FilterComponent();
     this.savesListComp = new SavesListComponent();

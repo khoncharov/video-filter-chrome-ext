@@ -1,9 +1,9 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable no-restricted-syntax */
-import { DEFAULT_VALUE } from '../constants';
+import { DEFAULT_FILTER } from '../constants';
 import filterData from './filter-data';
-import filterState from './filter-state';
-import { FilterEvent } from './types';
+import appState from './app-state';
+import { FilterEvent } from './app-events';
 
 jest.mock('./chrome-utils');
 
@@ -20,15 +20,15 @@ describe('Test SaveDataService class', () => {
   const saveName3 = '3d save';
   const state3 = { brightness: 121, contrast: 122, saturation: 123, isFlipped: false };
 
-  filterState.addEventListener(FilterEvent.Saved, onSaveCallback);
-  filterState.addEventListener(FilterEvent.Deleted, onDeleteCallback);
-  filterState.addEventListener(FilterEvent.Loaded, onLoadCallback);
-  filterState.addEventListener(FilterEvent.Selected, onSelectCallback);
+  appState.addEventListener(FilterEvent.Saved, onSaveCallback);
+  appState.addEventListener(FilterEvent.Deleted, onDeleteCallback);
+  appState.addEventListener(FilterEvent.Loaded, onLoadCallback);
+  appState.addEventListener(FilterEvent.Selected, onSelectCallback);
 
   test('Should be correctly initialized', () => {
-    expect(filterState.getCurrentSaveName()).toEqual('');
-    expect(filterState.savesStorage.size).toEqual(0);
-    expect(filterData.getState()).toStrictEqual(DEFAULT_VALUE);
+    expect(appState.getCurrentSaveName()).toEqual('');
+    expect(appState.savesMap.size).toEqual(0);
+    expect(filterData.getState()).toStrictEqual(DEFAULT_FILTER);
   });
 
   test('Should return correct values after SAVE', () => {
@@ -36,25 +36,25 @@ describe('Test SaveDataService class', () => {
     filterData.contrast = state1.contrast;
     filterData.saturation = state1.saturation;
     filterData.isFlipped = state1.isFlipped;
-    filterState.save(saveName1);
+    appState.save(saveName1);
 
     filterData.brightness = state2.brightness;
     filterData.contrast = state2.contrast;
     filterData.saturation = state2.saturation;
     filterData.isFlipped = state2.isFlipped;
-    filterState.save(saveName2);
+    appState.save(saveName2);
 
-    expect(filterState.getCurrentSaveName()).toEqual(saveName2);
-    expect(filterState.savesStorage.size).toEqual(2);
+    expect(appState.getCurrentSaveName()).toEqual(saveName2);
+    expect(appState.savesMap.size).toEqual(2);
     expect(filterData.getState()).toStrictEqual(state2);
   });
 
   test('Should return correct values after DELETE', () => {
-    filterState.delete(saveName2);
+    appState.delete(saveName2);
 
-    expect(filterState.getCurrentSaveName()).toEqual('');
-    expect(filterState.savesStorage.size).toEqual(1);
-    expect(filterState.savesStorage.get(saveName1)).toStrictEqual(state1);
+    expect(appState.getCurrentSaveName()).toEqual('');
+    expect(appState.savesMap.size).toEqual(1);
+    expect(appState.savesMap.get(saveName1)).toStrictEqual(state1);
     expect(filterData.getState()).toStrictEqual(state2);
   });
 
@@ -63,12 +63,12 @@ describe('Test SaveDataService class', () => {
     filterData.contrast = state3.contrast;
     filterData.saturation = state3.saturation;
     filterData.isFlipped = state3.isFlipped;
-    filterState.save(saveName3);
+    appState.save(saveName3);
 
-    filterState.restore(saveName1);
+    appState.restore(saveName1);
 
-    expect(filterState.getCurrentSaveName()).toEqual(saveName1);
-    expect(filterState.savesStorage.size).toEqual(2);
+    expect(appState.getCurrentSaveName()).toEqual(saveName1);
+    expect(appState.savesMap.size).toEqual(2);
     expect(filterData.getState()).toStrictEqual(state1);
   });
 

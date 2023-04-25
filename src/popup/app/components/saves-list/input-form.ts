@@ -1,5 +1,5 @@
 import { MAX_SAVE_NAME_LENGTH } from '../../constants';
-import filterState from '../../services/filter-state';
+import appState from '../../services/app-state';
 
 export default class InputFormComponent {
   private nameInput = document.querySelector('input#input-save-name') as HTMLInputElement;
@@ -21,7 +21,7 @@ export default class InputFormComponent {
 
     this.addBtn.addEventListener('click', () => {
       const saveName = this.nameInput.value.trim();
-      filterState.save(saveName);
+      appState.save(saveName);
       this.nameInput.value = '';
 
       this.update();

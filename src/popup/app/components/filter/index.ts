@@ -1,7 +1,10 @@
+import appState from '../../services/app-state';
 import FlipVideoComponent from './flip';
 import RangeComponent from './range';
 
 export default class FilterComponent {
+  private saveNameCaption = document.querySelector('span#save-name-caption') as HTMLSpanElement;
+
   private rangeBrightness: RangeComponent;
 
   private rangeContrast: RangeComponent;
@@ -30,5 +33,11 @@ export default class FilterComponent {
     this.rangeContrast.update();
     this.rangeSaturation.update();
     this.flipVideo.update();
+  }
+
+  updateCaption(): void {
+    this.saveNameCaption.textContent = appState.getCurrentSaveName()
+      ? ` - ${appState.getCurrentSaveName()}`
+      : '';
   }
 }

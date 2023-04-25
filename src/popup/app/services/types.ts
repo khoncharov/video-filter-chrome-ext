@@ -1,3 +1,5 @@
+/* Local */
+
 export type SaveName = string;
 
 export interface FilterState {
@@ -7,10 +9,20 @@ export interface FilterState {
   isFlipped: boolean;
 }
 
-export enum FilterEvent {
-  UserChange = 'userChange',
-  Loaded = 'dataLoaded',
-  Saved = 'dataSaved',
-  Deleted = 'dataDeleted',
-  Selected = 'dataSelected',
+export type FilterSaves = Map<SaveName, FilterState>;
+
+export interface LocalStorageItem {
+  savesStorage: [SaveName, FilterState][];
+}
+
+export type LocalStorageName = keyof LocalStorageItem;
+
+/* Session */
+
+export type TabId = number;
+
+export interface SessionDescriptor {
+  filterApplied: boolean;
+  saveName: SaveName;
+  filterState: FilterState;
 }

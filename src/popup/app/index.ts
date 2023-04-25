@@ -1,83 +1,61 @@
 import FilterComponent from './components/filter';
-import { changeFilterHandler, showRectHandler } from './context-utils';
-import { DEFAULT_VALUE } from './constants';
-import { FilterEvent } from './services/types';
+import { FilterEvent } from './services/app-events';
 import filterData from './services/filter-data';
-import filterState from './services/filter-state';
+import appState from './services/app-state';
 import SavesListComponent from './components/saves-list';
+import { applyFilterToContext } from './context/filter-to-context';
+import PageControlsComponent from './components/page-controls';
+import { updateLayout } from './layout';
 
 export default class RootComponent {
-  private showRectBtn = document.querySelector('button#show-rect-btn') as HTMLButtonElement;
-
-  private applyBtn = document.querySelector('button#apply-btn') as HTMLButtonElement;
-
-  private saveNameCaption = document.querySelector('span#save-name-caption') as HTMLSpanElement;
-
-  private isFilterApplied: boolean = false;
+  private pageControlsComp: PageControlsComponent;
 
   private filterComp: FilterComponent;
 
   private savesListComp: SavesListComponent;
 
   constructor() {
+    updateLayout();
+    this.pageControlsComp = new PageControlsComponent();
     this.filterComp = new FilterComponent();
     this.savesListComp = new SavesListComponent();
   }
 
   init(): void {
-    this.showRectBtn.addEventListener('click', showRectHandler);
-
-    this.applyBtn.addEventListener('click', () => {
-      if (this.isFilterApplied) {
-        this.isFilterApplied = false;
-        this.applyBtn.innerText = 'apply';
-        changeFilterHandler(DEFAULT_VALUE);
-      } else {
-        this.isFilterApplied = true;
-        this.applyBtn.innerText = 'cancel';
-        changeFilterHandler(filterData.getState());
+    const applyContextScript = (): void => {
+      if (appState.filterApplied) {
+        applyFilterToContext(filterData.getState());
       }
-    });
+    };
 
     filterData.addEventListener(FilterEvent.UserChange, () => {
-      filterState.setCurrentSaveName('');
+      appState.setCurrentSaveName('');
       this.savesListComp.clearSelected();
-      this.updateSaveNameCaption();
-      this.applyContextScript();
+      this.filterComp.updateCaption();
+      applyContextScript();
     });
 
-    filterState.addEventListener(FilterEvent.Loaded, () => {
+    appState.addEventListener(FilterEvent.Loaded, () => {
+      this.pageControlsComp.updateApplyBtn();
       this.filterComp.updateView();
-      this.updateSaveNameCaption();
-      this.savesListComp.redraw();
+      this.filterComp.updateCaption();
+      this.savesListComp.update();
     });
 
-    filterState.addEventListener(FilterEvent.Selected, () => {
+    appState.addEventListener(FilterEvent.Selected, () => {
       this.filterComp.updateView();
-      this.updateSaveNameCaption();
-      this.applyContextScript();
+      this.filterComp.updateCaption();
+      applyContextScript();
     });
 
-    filterState.addEventListener(FilterEvent.Saved, () => {
-      this.updateSaveNameCaption();
-      this.savesListComp.redraw();
-      this.applyContextScript();
+    appState.addEventListener(FilterEvent.Saved, () => {
+      this.filterComp.updateCaption();
+      this.savesListComp.update();
+      applyContextScript();
     });
 
-    filterState.addEventListener(FilterEvent.Deleted, () => {
-      this.updateSaveNameCaption();
+    appState.addEventListener(FilterEvent.Deleted, () => {
+      this.filterComp.updateCaption();
     });
-  }
-
-  applyContextScript(): void {
-    if (this.isFilterApplied) {
-      changeFilterHandler(filterData.getState());
-    }
-  }
-
-  updateSaveNameCaption(): void {
-    this.saveNameCaption.textContent = filterState.getCurrentSaveName()
-      ? ` - ${filterState.getCurrentSaveName()}`
-      : '';
   }
 }

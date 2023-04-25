@@ -1,4 +1,4 @@
-import { DEFAULT_VALUE } from '../../constants';
+import { DEFAULT_FILTER } from '../../constants';
 import filterData from '../../services/filter-data';
 
 export default class FlipVideoComponent {
@@ -19,7 +19,7 @@ export default class FlipVideoComponent {
   }
 
   reset(): void {
-    filterData.isFlipped = DEFAULT_VALUE.isFlipped;
+    filterData.isFlipped = DEFAULT_FILTER.isFlipped;
     this.update();
   }
 }

@@ -1,8 +1,7 @@
-import FilterEventTarget from './filter-events';
-import { FilterEvent } from './types';
+import AppEventTarget, { FilterEvent } from './app-events';
 
-describe('Test FilterEventTarget class', () => {
-  const obj = new FilterEventTarget();
+describe('Test AppEventTarget class', () => {
+  const obj = new AppEventTarget();
   const cb = jest.fn();
   obj.addEventListener(FilterEvent.Saved, cb);
 

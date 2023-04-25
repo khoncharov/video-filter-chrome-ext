@@ -1,5 +1,5 @@
 /* eslint-disable operator-linebreak */
-import filterState from '../../services/filter-state';
+import appState from '../../services/app-state';
 import InputFormComponent from './input-form';
 import createSaveItem from './save-item';
 
@@ -12,14 +12,13 @@ export default class SavesListComponent {
     this.inputForm = new InputFormComponent();
   }
 
-  redraw(): void {
+  update(): void {
     this.list.innerHTML = '';
-    filterState.savesStorage.forEach((value, name) => {
+    appState.savesMap.forEach((value, name) => {
       const item = createSaveItem(name);
       this.list.appendChild(item);
 
-      const isSelected =
-        item.dataset.name && item.dataset.name === filterState.getCurrentSaveName();
+      const isSelected = item.dataset.name && item.dataset.name === appState.getCurrentSaveName();
 
       if (isSelected) {
         item.scrollIntoView({ behavior: 'smooth' });

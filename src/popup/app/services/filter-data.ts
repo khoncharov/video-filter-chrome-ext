@@ -2,7 +2,7 @@ import { DEFAULT_FILTER } from '../constants';
 import AppEventTarget, { FilterEvent } from './app-events';
 import { FilterState } from './types';
 
-class FilterDataService extends AppEventTarget {
+export class FilterDataService extends AppEventTarget {
   private currentState: FilterState = { ...DEFAULT_FILTER };
 
   set brightness(value: number) {

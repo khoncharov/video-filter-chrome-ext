@@ -1,10 +1,11 @@
 /* eslint-disable object-curly-newline */
 import { DEFAULT_FILTER } from '../constants';
 import { FilterEvent } from './app-events';
-import filterData from './filter-data';
+import { FilterDataService } from './filter-data';
 
 describe('Test FilterDataService class', () => {
   const userActionHandler = jest.fn();
+  const filterData = new FilterDataService();
   filterData.addEventListener(FilterEvent.UserChange, userActionHandler);
 
   test('Should return correct default values', () => {

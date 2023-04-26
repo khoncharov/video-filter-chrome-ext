@@ -10,18 +10,13 @@ It may be useful for people with visual impairments to increase brightness and c
 
 ## Extension features
 
-1. Find & show video container on the page
+1. Show video container on the page
 2. Change video brightness(0-400%), contrast(0-200%), saturation(0-200%)
 3. Flip video horizontally
-4. Save & restore filter state with alias
+4. Save filter state with alias / Restore filter state by alias
 5. Accessible layout & keyboard navigation
-6. Separate state for Tabs.
+6. Separate filter state for Tabs.
 
 ## Design
 
 Figma [layout draft](https://www.figma.com/file/hmcOOhND0LHUrJdOEFo8cz/Twitch-video-filter?t=FC0zW5v5bj7pRjJ2-6)
-
-## TODO
-
-1. Testing
-2. :bug: issue: if you open a popup for two Tabs, the filter control change video for the Tab on which popup was opened last

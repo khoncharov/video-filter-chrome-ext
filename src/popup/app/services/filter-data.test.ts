@@ -31,6 +31,13 @@ describe('Test FilterDataService class', () => {
     });
   });
 
+  test('Should remove reference between objects', () => {
+    const filter = { ...DEFAULT_FILTER };
+
+    filterData.setState(filter);
+    expect(filterData.getState()).not.toBe(filter);
+  });
+
   test('Should notify', () => {
     expect(userActionHandler.mock.calls.length).toBe(4);
   });

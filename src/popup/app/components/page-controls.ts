@@ -1,8 +1,7 @@
+import AppStateService from '../services/app-state';
 import { APPLY_BTN_CAPTION, CANCEL_BTN_CAPTION, DEFAULT_FILTER } from '../constants';
-import filterData from '../services/filter-data';
-import appState from '../services/app-state';
-import { showRectHandler } from '../context/show-rect';
 import { applyFilterToContext } from '../context/filter-to-context';
+import { showRectHandler } from '../context/show-rect';
 import { updateTabBadge } from './badge';
 
 export default class PageControlsComponent {
@@ -10,22 +9,26 @@ export default class PageControlsComponent {
 
   private applyBtn = document.querySelector('button#apply-btn') as HTMLButtonElement;
 
-  constructor() {
+  private appState: AppStateService;
+
+  constructor(appState: AppStateService) {
+    this.appState = appState;
+
     this.showRectBtn.addEventListener('click', showRectHandler);
 
     this.applyBtn.addEventListener('click', () => {
       if (appState.filterApplied) {
-        appState.filterApplied = false;
+        this.appState.filterApplied = false;
         this.applyBtn.innerText = APPLY_BTN_CAPTION;
         applyFilterToContext(DEFAULT_FILTER);
 
-        updateTabBadge();
+        updateTabBadge(this.appState);
       } else {
-        appState.filterApplied = true;
+        this.appState.filterApplied = true;
         this.applyBtn.innerText = CANCEL_BTN_CAPTION;
-        applyFilterToContext(filterData.getState());
+        applyFilterToContext(this.appState.filterData.getState());
 
-        updateTabBadge();
+        updateTabBadge(this.appState);
       }
 
       appState.saveSessionState();
@@ -33,16 +36,16 @@ export default class PageControlsComponent {
   }
 
   updateApplyBtn(): void {
-    if (appState.filterApplied) {
+    if (this.appState.filterApplied) {
       this.applyBtn.innerText = CANCEL_BTN_CAPTION;
-      applyFilterToContext(filterData.getState());
+      applyFilterToContext(this.appState.filterData.getState());
 
-      updateTabBadge();
+      updateTabBadge(this.appState);
     } else {
       this.applyBtn.innerText = APPLY_BTN_CAPTION;
       applyFilterToContext(DEFAULT_FILTER);
 
-      updateTabBadge();
+      updateTabBadge(this.appState);
     }
   }
 }

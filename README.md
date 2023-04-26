@@ -24,3 +24,4 @@ Figma [layout draft](https://www.figma.com/file/hmcOOhND0LHUrJdOEFo8cz/Twitch-vi
 ## TODO
 
 1. Testing
+2. :bug: issue: if you open a popup for two Tabs, the filter control change video for the Tab on which popup was opened last

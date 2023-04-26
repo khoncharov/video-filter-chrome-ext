@@ -1,7 +1,7 @@
 /* eslint-disable object-curly-newline */
 import { DEFAULT_FILTER } from '../constants';
 import { FilterEvent } from './app-events';
-import { FilterDataService } from './filter-data';
+import FilterDataService from './filter-data';
 
 describe('Test FilterDataService class', () => {
   const userActionHandler = jest.fn();

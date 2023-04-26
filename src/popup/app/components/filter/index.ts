@@ -1,8 +1,10 @@
-import appState from '../../services/app-state';
+import AppStateService from '../../services/app-state';
 import FlipVideoComponent from './flip';
 import RangeComponent from './range';
 
 export default class FilterComponent {
+  private appState: AppStateService;
+
   private saveNameCaption = document.querySelector('span#save-name-caption') as HTMLSpanElement;
 
   private rangeBrightness: RangeComponent;
@@ -13,11 +15,13 @@ export default class FilterComponent {
 
   private flipVideo: FlipVideoComponent;
 
-  constructor() {
-    this.rangeBrightness = new RangeComponent('brightness');
-    this.rangeContrast = new RangeComponent('contrast');
-    this.rangeSaturation = new RangeComponent('saturation');
-    this.flipVideo = new FlipVideoComponent();
+  constructor(appState: AppStateService) {
+    this.appState = appState;
+
+    this.rangeBrightness = new RangeComponent('brightness', this.appState);
+    this.rangeContrast = new RangeComponent('contrast', this.appState);
+    this.rangeSaturation = new RangeComponent('saturation', this.appState);
+    this.flipVideo = new FlipVideoComponent(this.appState);
 
     const btnReset = document.querySelector('button#btn-reset') as HTMLButtonElement;
     btnReset.addEventListener('click', () => {
@@ -36,8 +40,8 @@ export default class FilterComponent {
   }
 
   updateCaption(): void {
-    this.saveNameCaption.textContent = appState.getCurrentSaveName()
-      ? ` - ${appState.getCurrentSaveName()}`
+    this.saveNameCaption.textContent = this.appState.getCurrentSaveName()
+      ? ` - ${this.appState.getCurrentSaveName()}`
       : '';
   }
 }

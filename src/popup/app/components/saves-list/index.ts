@@ -1,24 +1,29 @@
 /* eslint-disable operator-linebreak */
-import appState from '../../services/app-state';
-import InputFormComponent from './input-form';
+import AppStateService from '../../services/app-state';
 import createSaveItem from './save-item';
+import InputFormComponent from './input-form';
 
 export default class SavesListComponent {
   private list = document.querySelector('ul#list-saves') as HTMLUListElement;
 
   private inputForm: InputFormComponent;
 
-  constructor() {
-    this.inputForm = new InputFormComponent();
+  private appState: AppStateService;
+
+  constructor(appState: AppStateService) {
+    this.appState = appState;
+
+    this.inputForm = new InputFormComponent(this.appState);
   }
 
   update(): void {
     this.list.innerHTML = '';
-    appState.savesMap.forEach((value, name) => {
-      const item = createSaveItem(name);
+    this.appState.savesMap.forEach((value, name) => {
+      const item = createSaveItem(name, this.appState);
       this.list.appendChild(item);
 
-      const isSelected = item.dataset.name && item.dataset.name === appState.getCurrentSaveName();
+      const isSelected =
+        item.dataset.name && item.dataset.name === this.appState.getCurrentSaveName();
 
       if (isSelected) {
         item.scrollIntoView({ behavior: 'smooth' });

@@ -1,12 +1,12 @@
+import AppStateService from '../../services/app-state';
 import { MAX_SAVE_NAME_LENGTH } from '../../constants';
-import appState from '../../services/app-state';
 
 export default class InputFormComponent {
   private nameInput = document.querySelector('input#input-save-name') as HTMLInputElement;
 
   private addBtn = document.querySelector('button#btn-add-name') as HTMLButtonElement;
 
-  constructor() {
+  constructor(appState: AppStateService) {
     this.nameInput.addEventListener('input', () => {
       const value = this.nameInput.value.slice(0, MAX_SAVE_NAME_LENGTH);
       this.nameInput.value = value;

@@ -1,7 +1,7 @@
 /* eslint-disable object-curly-newline */
 import { DEFAULT_FILTER } from '../constants';
 import { FilterEvent } from './app-events';
-import { FilterDataService } from './filter-data';
+import FilterDataService from './filter-data';
 
 describe('Test FilterDataService class', () => {
   const userActionHandler = jest.fn();
@@ -29,6 +29,13 @@ describe('Test FilterDataService class', () => {
       saturation: 777,
       isFlipped: true,
     });
+  });
+
+  test('Should remove reference between objects', () => {
+    const filter = { ...DEFAULT_FILTER };
+
+    filterData.setState(filter);
+    expect(filterData.getState()).not.toBe(filter);
   });
 
   test('Should notify', () => {

@@ -1,25 +1,29 @@
+import AppStateService from '../../services/app-state';
 import { DEFAULT_FILTER } from '../../constants';
-import filterData from '../../services/filter-data';
 
 export default class FlipVideoComponent {
   private element: HTMLInputElement;
 
-  constructor() {
+  private appState: AppStateService;
+
+  constructor(appState: AppStateService) {
+    this.appState = appState;
+
     this.element = document.querySelector('input#input-flip') as HTMLInputElement;
 
-    this.element.checked = filterData.isFlipped;
+    this.element.checked = this.appState.filterData.isFlipped;
 
     this.element.addEventListener('change', () => {
-      filterData.isFlipped = this.element.checked;
+      this.appState.filterData.isFlipped = this.element.checked;
     });
   }
 
   update(): void {
-    this.element.checked = filterData.isFlipped;
+    this.element.checked = this.appState.filterData.isFlipped;
   }
 
   reset(): void {
-    filterData.isFlipped = DEFAULT_FILTER.isFlipped;
+    this.appState.filterData.isFlipped = DEFAULT_FILTER.isFlipped;
     this.update();
   }
 }

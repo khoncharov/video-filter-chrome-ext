@@ -24,7 +24,7 @@ body {
 .main {
   opacity: 0;
   background-color: $dark-rose-red;
-  transition: opacity 400ms;
+  transition: opacity 400ms ease-in;
 
   &-visible {
     opacity: 1;

@@ -1,11 +1,13 @@
-import { getActiveTabId } from '../context/tab-utils';
 import AppEventTarget, { FilterEvent } from './app-events';
-import filterData from './filter-data';
+import FilterDataService from './filter-data';
+import { getActiveTabId } from '../context/tab-utils';
+import { FilterSaves, FilterState, SaveName } from './types';
 import { loadFromLocal, saveToLocal } from './storage-local';
 import { loadFromSession, saveToSession } from './storage-session';
-import { FilterSaves, FilterState, SaveName } from './types';
 
-class AppStateService extends AppEventTarget {
+export default class AppStateService extends AppEventTarget {
+  public filterData: FilterDataService;
+
   public savesMap: FilterSaves = new Map<SaveName, FilterState>();
 
   private currentName: SaveName = '';
@@ -14,8 +16,9 @@ class AppStateService extends AppEventTarget {
 
   private tabIndex: number | null = null;
 
-  constructor() {
+  constructor(filterData: FilterDataService) {
     super();
+    this.filterData = filterData;
     this.loadAppState();
   }
 
@@ -33,7 +36,7 @@ class AppStateService extends AppEventTarget {
       if (session) {
         this.currentName = session.saveName;
         this.filterApplied = session.filterApplied;
-        filterData.setState(session.filterState);
+        this.filterData.setState(session.filterState);
       }
     }
 
@@ -49,7 +52,7 @@ class AppStateService extends AppEventTarget {
       saveToSession(this.tabIndex, {
         saveName: this.currentName,
         filterApplied: this.filterApplied,
-        filterState: filterData.getState(),
+        filterState: this.filterData.getState(),
       });
     }
   }
@@ -70,7 +73,7 @@ class AppStateService extends AppEventTarget {
   }
 
   save(name: SaveName) {
-    this.savesMap.set(name, { ...filterData.getState() });
+    this.savesMap.set(name, { ...this.filterData.getState() });
     this.currentName = name;
 
     this.saveSessionState();
@@ -94,7 +97,7 @@ class AppStateService extends AppEventTarget {
   restore(name: SaveName) {
     const state = this.savesMap.get(name);
     if (state) {
-      filterData.setState(state);
+      this.filterData.setState(state);
       this.currentName = name;
 
       this.saveSessionState();
@@ -103,6 +106,3 @@ class AppStateService extends AppEventTarget {
     }
   }
 }
-
-const appState = new AppStateService();
-export default appState;

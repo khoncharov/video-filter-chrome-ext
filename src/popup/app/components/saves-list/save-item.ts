@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
-import appState from '../../services/app-state';
+import AppStateService from '../../services/app-state';
 
-export default function createSaveItem(name: string): HTMLElement {
+export default function createSaveItem(name: string, appState: AppStateService): HTMLElement {
   const item = document.createElement('li');
   item.className = 'save__item';
   item.dataset.name = name;

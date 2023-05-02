@@ -2,14 +2,11 @@
 
 ## Overview
 
-<div style="margin-bottom: 40px; display: flex; width: max-content; gap: 20px;">
-  <img alt="App appearance" src="./pic/pic00.png" width="250">
-  <img alt="App appearance" src="./pic/pic01.png" width="250">  
-</div>
-
 The main idea of the extension is that just like we can adjust the volume of the video content, sometimes we need to adjust some parameters of the video image. This is mainly useful for videos on steaming platforms, like twitch, where the adjustment of the video image is quite arbitrary.
 
 It may be useful for people with visual impairments to increase brightness and contrast with loss of details but with a clearer display of the main silhouettes.
+
+<img alt="App appearance" src="./pic/pic00.png" width="250">
 
 ### Extension features
 

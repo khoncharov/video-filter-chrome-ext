@@ -1,10 +1,35 @@
 @use "./variables" as *;
 
+.range-container {
+  display: grid;
+  margin-block: 1.4rem 1.6rem;
+}
+
+.range-container .track-background,
+.range-container .track-bar {
+  display: block;
+  height: 0.6rem;
+  grid-row: 1 / 2;
+  grid-column: 1 / 2;
+}
+
+.range-container .track-background {
+  width: 100%;
+  background-color: $mid-gray;
+  border: 0.2rem solid $white;
+}
+
+.range-container .track-bar {
+  background-color: $twitch-purple;
+}
+
 input[type="range"] {
   appearance: none;
   background: transparent;
   cursor: pointer;
   width: 100%;
+  grid-row: 1 / 2;
+  grid-column: 1 / 2;
 }
 
 input[type="range"]:focus-visible {
@@ -13,20 +38,21 @@ input[type="range"]:focus-visible {
 }
 
 input[type="range"]::-webkit-slider-runnable-track {
-  background-color: $mid-gray;
-  opacity: 1;
-  height: 0.5rem;
+  height: 0.6rem;
   transition: background-color $t-x1;
 }
 
 input[type="range"]::-webkit-slider-thumb {
   appearance: none;
-  margin-top: -1rem;
-  background-color: $dark-rose-red;
+  margin-top: -0.8rem;
+  background-color: $white;
+  border: 0.2rem solid $twitch-purple;
   height: 1.8rem;
-  width: 0.9rem;
+  width: 1rem;
+  transition: border-color $t-x1;
 }
 
-input[type="range"]:hover::-webkit-slider-runnable-track {
-  background-color: $twitch-purple;
+input[type="range"]:hover::-webkit-slider-thumb,
+input[type="range"]:focus-visible::-webkit-slider-thumb {
+  border-color: $carafe;
 }

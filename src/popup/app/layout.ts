@@ -21,7 +21,11 @@ const layout = `
       <p class="ctrl__value"></p>
       <button class="btn-delete" type="button" aria-label="Reset brightness value">${deleteBtnSVG}</button>
     </div>
-    <input class="range" type="range" max="400" min="0" step="1" aria-label="Brightness" />
+    <div class="range-container">
+      <span class="track-background"></span>
+      <span class="track-bar"></span>
+      <input class="range" type="range" max="400" min="0" step="1" aria-label="Brightness" />
+    </div>
   </div>
   <div class="ctrl__container" id="component-contrast">
     <div class="ctrl__header">
@@ -29,7 +33,11 @@ const layout = `
       <p class="ctrl__value"></p>
       <button class="btn-delete" type="button" aria-label="Reset contrast value">${deleteBtnSVG}</button>
     </div>
-    <input class="range" type="range" max="200" min="0" step="1" aria-label="Contrast" />
+    <div class="range-container">
+      <span class="track-background"></span>
+      <span class="track-bar"></span>
+      <input class="range" type="range" max="200" min="0" step="1" aria-label="Contrast" />
+    </div>
   </div>
   <div class="ctrl__container" id="component-saturation">
     <div class="ctrl__header">
@@ -37,7 +45,11 @@ const layout = `
       <p class="ctrl__value"></p>
       <button class="btn-delete" type="button" aria-label="Reset saturation value">${deleteBtnSVG}</button>
     </div>
-    <input class="range" type="range" max="200" min="0" step="1" aria-label="Saturation" />
+    <div class="range-container">
+      <span class="track-background"></span>
+      <span class="track-bar"></span>
+      <input class="range" type="range" max="200" min="0" step="1" aria-label="Saturation" />
+    </div>
   </div>
   <div class="ctrl__footer">
     <label class="checkbox-flip-label">
